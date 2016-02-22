@@ -2,7 +2,7 @@
 
 ## Summary
 
-I, Peabnuts12, have pushed a framework project to this repository.
+I, Peabnuts123, have pushed a framework project to this repository.
 Below, I have documented how it works, and how to use it.
 
 I plan on pushing this framework as a Visual Studio template to github
@@ -18,33 +18,37 @@ This is the BBANG JUK Framework:
 * [**B**ootstrap](https://github.com/twbs/bootstrap)
     * Front-end library of pre-built components and stylesheets for web design.
 * [**A**ngular](https://github.com/angular/angular.js)
-    * Self-proclaimed "super heroic" JavaScript library for easy constructive of highly interactive JavaScript-centric websites.
+    * Self-proclaimed "super heroic" JavaScript library for easy construction of highly interactive JavaScript-centric web pages.
 * [**N**odeJS](https://github.com/nodejs/node)
     * Offline implementation of V8 JavaScript engine for utilisation of JavaScript as a development platform.
 * [**G**ulp](https://github.com/gulpjs/gulp)
     * Script runner for automation of tasks.
 * [**J**asmine](https://github.com/jasmine/jasmine)
-    * JavaScript BDD-style unit-testing framework.
+    * BDD-style unit testing framework for JavaScript.
 * [**U**nderscore](https://github.com/jashkenas/underscore)
     * Utility library of highly useful and easy-to-use JavaScript functions.
 * [**K**arma](https://github.com/karma-runner/karma)
     * Test-running framework that uses a real browser to execute JavaScript tests.
 
 ## Requirements
-This project requires a few small things to be installed in order to operate properly:
+This project requires a few things to be installed in order to operate properly:
 
 * [NodeJS](https://nodejs.org/en/)
     * Needed for package dependency management and running automation scripts / unit tests etc.
     * I would recommend downloading **Latest Stable**
+    * Ensure `node` and `npm` end up on your PATH.
 * [Git](https://git-scm.com/downloads)
     * Required for `bower`, so that it may download packages.
     * Has added benefit of being able to list **any** GitHub repo as a dependency for your project!
+    * Ensure `git` is added to PATH.
+* **NodeJS .bin folder must be added to %PATH%**
+    * Add `.\node_modules\.bin` to your PATH environment variable.
 
 
 The following items are recommended but not required to run the project:
 
 * [Karma Test Adaptor](https://github.com/MortenHoustonLudvigsen/KarmaTestAdapter)
-    * This is an extension for Visual Studio to integrate Karma's Unit tests to its **Test Runner** window
+    * This is an extension for Visual Studio to integrate Karma's Unit tests to its **Test Runner** window.
     * The tests run and update in real time as you edit code, and you never have to run `karma` by hand, so it's super easy to use.
 
 
@@ -72,7 +76,7 @@ Planned additions:
 ## Unit Testing
 #### Background
 Unit Tests for the project are written and implemented using the **Jasmine** framework. 
-**Karma** is used to physically run the tests.
+**Karma** is used to run the tests.
 
 Upon running (via command line or Visual Studio extension) Karma will **physically open an instance of Chrome
 that you will need to keep open in order for your tests to run**. If you try to close the browser, Karma will
@@ -110,7 +114,7 @@ There may very well be issues with the project as it stands. I've done my best t
 [Open a new Issue](https://github.com/KukoShaku/BountyBoard/issues/new) on GitHub if you are experiencing any issues that are not
 listed here.
 
-#### Commands like `gulp` `bower` or `karma` aren't recognised as a commands, operable program etc. OR Task Runner Explorer in Visual Studio says gulp can't load
+#### Commands like `gulp`, `bower` or `karma` aren't recognised as a commands, operable programs etc *OR* Task Runner Explorer in Visual Studio says gulp can't load
 Ensure the following string is in your path: `.\node_modules\.bin`.
 
 If that fails, delete the folders `node_modules` and `bower_components`, then run `npm install` and then `bower install` from the command line. Then rebuild the project in VS.
@@ -118,3 +122,7 @@ If that fails, delete the folders `node_modules` and `bower_components`, then ru
 #### No seriously, none of my node stuff is running / downloading!
 Try deleting `node_modules` and `bower_components`, then ALSO delete `%appdata%/npm-cache` and THEN run `npm install` and `bower install` from the command line.
 
+---
+
+If any bower or node dependencies are added by someone else, you will need to run bower/npm install from the command line. Cleaning out your solution, deleting the `node_modules`/`bower_components`
+folders and re-running `install` should fix many issues.
