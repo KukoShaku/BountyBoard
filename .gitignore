@@ -1,0 +1,4 @@
+**/node_modules/
+**/bower_components/
+Bounty Board/bin/
+Bounty Board/obj/

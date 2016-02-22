@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en" id="ng-app" ng-app="app">
+    <head>
+        <!-- META -->
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Bounty_Board</title>
+
+
+        <!-- JAVASCRIPT -->
+        <!-- Dependency Bundles -->
+        <script type="text/javascript" src="scripts/lib/jquery-bundle.min.js"></script>
+        <script type="text/javascript" src="scripts/lib/bootstrap-bundle.min.js"></script>
+        <script type="text/javascript" src="scripts/lib/angular-bundle.min.js"></script>
+        <script type="text/javascript" src="scripts/lib/underscore-bundle.min.js"></script>
+
+        <!-- High Importance Bundles -->
+        <script type="text/javascript" src="angularModules.js"></script>
+
+
+        <!-- CSS -->
+        <!-- Dependency Bundles -->
+        <link rel="stylesheet" type="text/css" href="content/lib/bootstrap-bundle.min.css"/>
+
+        <!-- Non-Library Code -->
+        <link rel="stylesheet" type="text/css" href="content/site.css" />
+    </head>
+    <body ng-controller="main as ctrl">
+        <div class="container">
+            <!-- TEST - REMOVE ME -->
+            <h1 ng-bind="ctrl.test"></h1>
+            <!-- TEST - REMOVE ME -->
+        </div>
+
+        <!-- JAVASCRIPT -->
+        <script type="text/javascript" src="scripts/app.js"></script>
+    </body>
+</html>
