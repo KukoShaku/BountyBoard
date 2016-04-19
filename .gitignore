@@ -1,6 +1,7 @@
 .vs/
 **/node_modules/
 **/bower_components/
+**/*.csproj.user
 Bounty Board/bin/
 Bounty Board/obj/
 /BountyBoard.Core/bin/Debug
@@ -15,3 +16,4 @@ Bounty Board/obj/
 /Bounty Board/WebFiles/content/lib/bootstrap-bundle.min.css.map
 /Bounty Board/WebFiles/content/lib/bootstrap-bundle.min.css
 /Bounty Board/WebFiles/scripts/lib
+/packages/

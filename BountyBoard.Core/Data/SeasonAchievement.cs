@@ -8,6 +8,8 @@ namespace BountyBoard.Core.Data
 {
     public class SeasonAchievement : DatabaseObject
     {
+        internal SeasonAchievement() { }
+
         public int SeasonId { get; set; }
         public Season Season { get; set; }
         public int AchievementId { get; set; }

@@ -11,6 +11,7 @@ namespace BountyBoard.Core.Data
         public string Name { get; set; }
         public string Description { get; set; }
         public byte[] Image { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsApproved { get; set; }
+        public double Value { get; set; }
     }
 }
