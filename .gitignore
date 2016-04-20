@@ -1,5 +1,19 @@
 .vs/
 **/node_modules/
 **/bower_components/
+**/*.csproj.user
 Bounty Board/bin/
 Bounty Board/obj/
+/BountyBoard.Core/bin/Debug
+/BountyBoard.Core/obj/Debug
+/BountyBoard.Core.Tests/bin/Debug
+/BountyBoard.Core.Tests/obj/Debug
+/Bounty Board/WebFiles/content/fonts/glyphicons-halflings-regular.woff2
+/Bounty Board/WebFiles/content/fonts/glyphicons-halflings-regular.woff
+/Bounty Board/WebFiles/content/fonts/glyphicons-halflings-regular.ttf
+/Bounty Board/WebFiles/content/fonts/glyphicons-halflings-regular.svg
+/Bounty Board/WebFiles/content/fonts/glyphicons-halflings-regular.eot
+/Bounty Board/WebFiles/content/lib/bootstrap-bundle.min.css.map
+/Bounty Board/WebFiles/content/lib/bootstrap-bundle.min.css
+/Bounty Board/WebFiles/scripts/lib
+/packages/

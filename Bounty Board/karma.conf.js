@@ -16,12 +16,12 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             /* inject:files */
-            "C:/Users/peabn/Documents/Projects/BBANGU Template/Source/WebFiles/scripts/lib/jquery-bundle.min.js",
-            "C:/Users/peabn/Documents/Projects/BBANGU Template/Source/WebFiles/scripts/lib/bootstrap-bundle.min.js",
-            "C:/Users/peabn/Documents/Projects/BBANGU Template/Source/WebFiles/scripts/lib/angular-bundle.min.js",
-            "C:/Users/peabn/Documents/Projects/BBANGU Template/Source/WebFiles/scripts/lib/underscore-bundle.min.js",
-            "C:/Users/peabn/Documents/Projects/BBANGU Template/Source/WebFiles/angularModules.js",
-            "C:/Users/peabn/Documents/Projects/BBANGU Template/Source/WebFiles/scripts/app.js",
+            "C:/GitSource/BountyBoard/Bounty Board/WebFiles/scripts/lib/jquery-bundle.min.js",
+            "C:/GitSource/BountyBoard/Bounty Board/WebFiles/scripts/lib/bootstrap-bundle.min.js",
+            "C:/GitSource/BountyBoard/Bounty Board/WebFiles/scripts/lib/angular-bundle.min.js",
+            "C:/GitSource/BountyBoard/Bounty Board/WebFiles/scripts/lib/underscore-bundle.min.js",
+            "C:/GitSource/BountyBoard/Bounty Board/WebFiles/angularModules.js",
+            "C:/GitSource/BountyBoard/Bounty Board/WebFiles/scripts/app.js",
             /* endinject */
             'bower_components/angular-mocks/angular-mocks.js',
             'Test/**/*.js'
