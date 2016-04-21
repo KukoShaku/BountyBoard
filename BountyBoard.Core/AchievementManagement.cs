@@ -13,9 +13,5 @@ namespace BountyBoard.Core
         {
 
         }
-
-        
-
-
     }
 }

@@ -8,6 +8,8 @@ namespace BountyBoard.Core.Data
 {
     public class Season : DatabaseObject
     {
+        internal Season() { }
+
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public DateTime? StartDate { get; set; }

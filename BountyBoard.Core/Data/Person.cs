@@ -8,6 +8,7 @@ namespace BountyBoard.Core.Data
 {
     public class Person : DatabaseObject
     {
+        internal Person() { }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Description { get; set; }
