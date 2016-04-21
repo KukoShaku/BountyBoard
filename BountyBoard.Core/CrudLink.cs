@@ -23,11 +23,14 @@ namespace BountyBoard.Core
             {
                 Context.Add(item);
             }
+
+            Context.SaveChanges();
         }
 
         internal void Delete(int id)
         {
             Context.Delete<T>(id);
+            Context.SaveChanges();
         }
 
     }

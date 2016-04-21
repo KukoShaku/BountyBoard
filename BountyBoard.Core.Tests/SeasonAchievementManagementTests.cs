@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using BountyBoard.Core.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,8 @@ namespace BountyBoard.Core.Tests
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             SeasonAchievementManagement mangement = Resolve(fakeContext.Object);
-
+            fakeContext.Setup(x => x.List<Achievement>()).Returns(new Achievement[] { new Achievement { Id = 1 } }.AsQueryable());
+            fakeContext.Setup(x => x.List<Season>()).Returns(new Season[] { new Season { Id = 1 } }.AsQueryable());
             mangement.Join(-1, 1);
         }
 
@@ -33,6 +35,8 @@ namespace BountyBoard.Core.Tests
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             SeasonAchievementManagement mangement = Resolve(fakeContext.Object);
+            fakeContext.Setup(x => x.List<Achievement>()).Returns(new Achievement[] { new Achievement { Id = 1 } }.AsQueryable());
+            fakeContext.Setup(x => x.List<Season>()).Returns(new Season[] { new Season { Id = 1 } }.AsQueryable());
             mangement.Join(1, -1);
         }
 
@@ -41,6 +45,8 @@ namespace BountyBoard.Core.Tests
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             SeasonAchievementManagement mangement = Resolve(fakeContext.Object);
+            fakeContext.Setup(x => x.List<Achievement>()).Returns(new Achievement[] { new Achievement { Id = 1, IsApproved = true } }.AsQueryable());
+            fakeContext.Setup(x => x.List<Season>()).Returns(new Season[] { new Season { Id = 1, IsActive = true } }.AsQueryable());
             mangement.Join(1, 1);
         }
 
@@ -49,6 +55,8 @@ namespace BountyBoard.Core.Tests
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             SeasonAchievementManagement mangement = Resolve(fakeContext.Object);
+            fakeContext.Setup(x => x.List<Achievement>()).Returns(new Achievement[] { new Achievement { Id = 1, IsApproved = false } }.AsQueryable());
+            fakeContext.Setup(x => x.List<Season>()).Returns(new Season[] { new Season { Id = 1 } }.AsQueryable());
             mangement.Join(1, 1);
         }
 
@@ -57,8 +65,10 @@ namespace BountyBoard.Core.Tests
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             SeasonAchievementManagement mangement = Resolve(fakeContext.Object);
+            fakeContext.Setup(x => x.List<Achievement>()).Returns(new Achievement[] { new Achievement { Id = 1, IsApproved = true } }.AsQueryable());
+            fakeContext.Setup(x => x.List<Season>()).Returns(new Season[] { new Season { Id = 1 } }.AsQueryable());
+            fakeContext.Setup(x => x.List<SeasonAchievement>()).Returns(new SeasonAchievement[] { new SeasonAchievement { SeasonId = 1, AchievementId = 1 } }.AsQueryable());
             mangement.Join(1, 1);
-            throw new NotImplementedException();
         }
 
         [TestMethod]
@@ -66,8 +76,11 @@ namespace BountyBoard.Core.Tests
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             SeasonAchievementManagement mangement = Resolve(fakeContext.Object);
+            fakeContext.Setup(x => x.List<Achievement>()).Returns(new Achievement[] { new Achievement { Id = 1, IsApproved = true } }.AsQueryable());
+            fakeContext.Setup(x => x.List<Season>()).Returns(new Season[] { new Season { Id = 1 } }.AsQueryable());
             mangement.Join(1, 1);
-            throw new NotImplementedException();
+
+            fakeContext.Verify(x => x.Add<SeasonAchievement>(It.IsAny<SeasonAchievement>()), Times.Once);
         }
 
         [TestMethod, ExpectedException(typeof(BusinessLogicException))]
@@ -75,6 +88,7 @@ namespace BountyBoard.Core.Tests
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             SeasonAchievementManagement mangement = Resolve(fakeContext.Object);
+            fakeContext.Setup(x => x.List<SeasonAchievement>()).Returns(new SeasonAchievement[] { new SeasonAchievement { Id = 1, Season = new Season { Id = 1, IsActive = true } } }.AsQueryable());
             mangement.Remove(1);
         }
 
@@ -83,17 +97,20 @@ namespace BountyBoard.Core.Tests
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             SeasonAchievementManagement mangement = Resolve(fakeContext.Object);
+            fakeContext.Setup(x => x.List<Season>()).Returns(new Season[] { new Season { Id = 1 } }.AsQueryable());
             mangement.Remove(-1);
         }
 
         [TestMethod]
-        public void Remove_CorrectRecord_Fails()
+        public void Remove_CorrectRecord_CallsDelete()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             SeasonAchievementManagement mangement = Resolve(fakeContext.Object);
+            fakeContext.Setup(x => x.List<SeasonAchievement>()).Returns(new SeasonAchievement[] { new SeasonAchievement { Id = 1, Season = new Season { IsActive = false} } }.AsQueryable());
             mangement.Remove(1);
 
-            throw new NotImplementedException();
+            fakeContext.Verify(x => x.Delete<SeasonAchievement>(1), Times.Once);
+            
         }
     }
 }
