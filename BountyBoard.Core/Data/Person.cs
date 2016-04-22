@@ -12,6 +12,8 @@ namespace BountyBoard.Core.Data
         public string Name { get; set; }
         public string Email { get; set; }
         public string Description { get; set; }
+        public DateTime? DisabledDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         /// <summary>
         /// Collection of Awarded achievements based on season
