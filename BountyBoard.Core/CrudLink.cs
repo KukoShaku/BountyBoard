@@ -12,15 +12,25 @@ namespace BountyBoard.Core
         protected CrudLink(IDatabaseContext context) 
             : base(context) { }
 
-        public IEnumerable<T> List { get; }
-        public void AddOrUpdate(T item)
+        public IEnumerable<T> List { get { return Context.List<T>(); } }
+        internal void AddOrUpdate(T item)
         {
-            throw new NotImplementedException();
+            if (item.Id >= 0)
+            {
+                Context.Update(item);
+            }
+            else
+            {
+                Context.Add(item);
+            }
+
+            Context.SaveChanges();
         }
 
-        public void Delete(int id)
+        internal void Delete(int id)
         {
-            throw new NotImplementedException();
+            Context.Delete<T>(id);
+            Context.SaveChanges();
         }
 
     }

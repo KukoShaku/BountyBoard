@@ -41,17 +41,37 @@ namespace BountyBoard.Core
                 throw new BusinessLogicException("Achievement must be approved");
             }
 
-            var result = new SeasonAchievement() {
+            var seasonAchievement = Context.List<SeasonAchievement>()
+                .SingleOrDefault(x => x.SeasonId == season.Id && x.AchievementId == achievement.Id);
+            if (seasonAchievement != null)
+            {
+                throw new BusinessLogicException("Achievement already exists in this season");
+            }
+
+            var result = new SeasonAchievement
+            {
+                AchievementId = achievement.Id,
                 Achievement = achievement,
                 Season = season,
+                SeasonId = season.Id
             };
 
-            throw new NotImplementedException("Implement the insertion bit");
+            Context.Add(result);
+            Context.SaveChanges();
         }
 
         public void Remove(int id)
         {
-            throw new NotImplementedException("Implement the deletion bit");
+            var seasonAchievement = Context.List<SeasonAchievement>().Single(x => x.Id == id);
+            if (seasonAchievement.Season.IsActive)
+            {
+                throw new BusinessLogicException("Season is currently active, you can't remove an active season.");
+            }
+            else
+            {
+                Context.Delete<SeasonAchievement>(id);
+                Context.SaveChanges();
+            }
         }
     }
 }
