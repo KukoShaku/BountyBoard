@@ -21,31 +21,32 @@ namespace BountyBoard.Core.Test
             var person2 = new Person { Id = 2, DisabledDate = DateTime.Now };
             var sharedPerson = new Person { Id = 3, DisabledDate = DateTime.Now };
 
-            person1.AddToGroup(accountGroup1);
-            person2.AddToGroup(accountGroup1);
-            sharedPerson.AddToGroup(accountGroup1);
+            var g1 = person1.AddToGroup(accountGroup1);
+            var g2 = person2.AddToGroup(accountGroup1);
+            var g3 = sharedPerson.AddToGroup(accountGroup1);
 
             var accountGroup2 = new AccountGroup { Id = 2 };
             var person4 = new Person { Id = 4 };
             var person5 = new Person { Id = 5 };
 
-            person1.AddToGroup(accountGroup2);
-            sharedPerson.AddToGroup(accountGroup2);
-            person4.AddToGroup(accountGroup2);
-            person5.AddToGroup(accountGroup2);
+            var g4 = person1.AddToGroup(accountGroup2);
+            var g5 = sharedPerson.AddToGroup(accountGroup2);
+            var g6 = person4.AddToGroup(accountGroup2);
+            var g7 = person5.AddToGroup(accountGroup2);
 
             var disabledAccountGroup = new AccountGroup() { Id = 3, EndDate = DateTime.Now };
             var person6 = new Person { Id = 6 };
-            person6.AddToGroup(disabledAccountGroup);
-            sharedPerson.AddToGroup(disabledAccountGroup);
+            var g8 = person6.AddToGroup(disabledAccountGroup);
+            var g9 = sharedPerson.AddToGroup(disabledAccountGroup);
 
             var accountGroup4 = new AccountGroup() { Id = 4 };
-            person6.AddToGroup(accountGroup4);
+            var g10 = person6.AddToGroup(accountGroup4);
 
             var people = new[] { person1, person2, sharedPerson, person4, person5, person6 };
 
             context.Setup(x => x.List<Person>()).Returns(people.AsQueryable());
             context.Setup(x => x.List<AccountGroup>()).Returns(new AccountGroup[] { accountGroup1, accountGroup2, disabledAccountGroup, accountGroup4 }.AsQueryable());
+            context.Setup(x => x.List<AccountGroupPeople>()).Returns(new AccountGroupPeople[] { g1, g2, g3, g4, g5, g6, g7, g8, g9, g10 }.AsQueryable());
             return new AccountManagement(context.Object, personId.Value);
         }
         
@@ -64,7 +65,7 @@ namespace BountyBoard.Core.Test
             Assert.IsFalse(people.Any(x => x.Id == 6));
         }
 
-        [TestMethod, ExpectedException(typeof(BusinessLogicException))]
+        [TestMethod]
         public void AddColleague_ExistingUser_CanYouNot()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -73,6 +74,7 @@ namespace BountyBoard.Core.Test
             Person person = new Person { Id = 1 };
             var accountGroupId = 1;
             mangement.InvitePerson(person, accountGroupId);
+            fakeContext.Verify(x => x.SaveChanges(), Times.Never);
         }
 
         [TestMethod, ExpectedException(typeof(BusinessLogicException))]

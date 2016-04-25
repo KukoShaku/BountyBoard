@@ -117,11 +117,5 @@ namespace BountyBoard.Core.Tests
             
         }
 
-        [TestMethod]
-        public void Add_OfficerRole_CanAdd()
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

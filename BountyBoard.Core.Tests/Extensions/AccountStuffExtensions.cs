@@ -9,7 +9,7 @@ namespace BountyBoard.Core.Test.Extensions
 {
     internal static class AccountStuffExtensions
     {
-        internal static void AddToGroup(this Person p, AccountGroup group, bool disabledPermissions = false)
+        internal static AccountGroupPeople AddToGroup(this Person p, AccountGroup group, bool disabledPermissions = false)
         {
             if (p.AccountGroups == null)
             {
@@ -24,6 +24,8 @@ namespace BountyBoard.Core.Test.Extensions
             }
 
             group.AccountGroupPeople.Add(join);
+
+            return join;
         }
 
     }

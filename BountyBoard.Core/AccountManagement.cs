@@ -27,7 +27,43 @@ namespace BountyBoard.Core
         /// <param name="accountGroupId"></param>
         public void InvitePerson(Person person, int accountGroupId)
         {
-            throw new NotImplementedException();
+            if (person == null)
+            {
+                throw new ArgumentNullException(nameof(person));
+            }
+
+            if (accountGroupId <= 0)
+            {
+                throw new ArgumentException("Account group id has to be higher than 0", nameof(accountGroupId));
+            }
+
+            var accountGroup = Context.List<AccountGroup>().Single(x => x.Id == accountGroupId);
+            if (accountGroup.EndDate.HasValue)
+            {
+                throw new BusinessLogicException("Cannot add to a disabled group");
+            }
+
+            if (!Me.AccountGroups.Any(x => x.AccountGroupId == accountGroupId))
+            {
+                throw new BusinessLogicException("Current user does not belong in this group");
+            }
+
+            if (Context.List<AccountGroupPeople>().Any(x => x.PersonId == person.Id && x.AccountGroupId == accountGroupId))
+            {
+                //early return, already added
+                return;
+            }
+            else
+            {
+                var join = new AccountGroupPeople 
+                {
+                    PersonId = person.Id,
+                    AccountGroupId = accountGroupId
+                };
+
+                Context.Add(join);
+                Context.SaveChanges();
+            }
         }
 
         /// <summary>
