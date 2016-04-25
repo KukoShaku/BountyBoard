@@ -16,6 +16,11 @@ namespace BountyBoard.Core.Data
         public DateTime CreatedDate { get; set; }
 
         /// <summary>
+        /// For Popular people
+        /// </summary>
+        public virtual ICollection<AccountGroupPeople> AccountGroups { get; set; }
+
+        /// <summary>
         /// Collection of Awarded achievements based on season
         /// </summary>
         public virtual ICollection<AwardedAchievement> Awards { get; set; }

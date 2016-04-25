@@ -12,7 +12,7 @@ namespace BountyBoard.Core.Data
         public DateTime CreatedDate { get; set; }
         public DateTime? EndDate { get; set; }
         
-        public virtual ICollection<Person> People { get; set; }
+        public virtual ICollection<AccountGroupPeople> AccountGroupPeople { get; set; }
 
     }
 }

@@ -10,7 +10,7 @@ namespace BountyBoard.Core
     public abstract class UserRestrictedDatabaseLink : DatabaseLink
     {
         private readonly Person _person;
-        protected Person Person { get { return _person; } }
+        public Person Me { get { return _person; } }
         public bool ValidUser { get { return !_person.DisabledDate.HasValue; } }
 
         protected UserRestrictedDatabaseLink(IDatabaseContext context, int personId) 
