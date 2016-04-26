@@ -17,7 +17,11 @@ namespace BountyBoard.Core
 
         public IEnumerable<Person> GetMyColleagues(bool includeInactive = false)
         {
-            throw new NotImplementedException();
+            var otherColleagues = Me.AccountGroups.Select(x => x.AccountGroup)
+                .SelectMany(x => x.AccountGroupPeople.Select(y=> y.Person))
+                .Where(x => x.DisabledDate == null)
+                .Distinct();
+            return otherColleagues;
         }
 
         /// <summary>
