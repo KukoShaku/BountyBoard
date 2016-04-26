@@ -23,14 +23,19 @@ namespace BountyBoard.Core.Test
             Assert.IsTrue(access.ValidUser);
         }
 
-        [TestMethod]
-        public void Constructor_DisabledAccount_Something()
+        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        public void Constructor_DisabledAccount_ThrowsException()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
-            fakeContext.Setup(x => x.List<Person>()).Returns(new[] { new Person { Id = 1, DisabledDate = DateTime.Now } }.AsQueryable());
+            fakeContext.Setup(x => x.List<Person>()).Returns(new[] 
+            {
+                new Person
+                {
+                    Id = 1,
+                    DisabledDate = DateTime.Now
+                }
+            }.AsQueryable());
             var access = new FakeRestrictiveAccess(fakeContext.Object, 1);
-
-            Assert.IsFalse(access.ValidUser);
         }
     }
 }
