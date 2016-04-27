@@ -15,13 +15,22 @@ namespace BountyBoard.Core
 
         }
 
+        public IEnumerable<Person> GetMyColleagues(int accountGroupId, bool includeInactive = false)
+        {
+            return GetMyColleagues(includeInactive).Where(x => x.AccountGroupPeople.Any(y => y.AccountGroupId == accountGroupId));
+        }
+
+        private IEnumerable<Person> AllMyColleagues
+        {
+            get
+            {
+                return Me.AccountGroupPeople.SelectMany(x => x.AccountGroup.AccountGroupPeople.Select(y => y.Person));
+            }
+        }
+
         public IEnumerable<Person> GetMyColleagues(bool includeInactive = false)
         {
-            var otherColleagues = Me.AccountGroups.Select(x => x.AccountGroup)
-                .SelectMany(x => x.AccountGroupPeople.Select(y=> y.Person))
-                .Where(x => x.DisabledDate == null)
-                .Distinct();
-            return otherColleagues;
+            return AllMyColleagues.Where(x => !x.DisabledDate.HasValue || includeInactive).Distinct();
         }
 
         /// <summary>
@@ -47,7 +56,7 @@ namespace BountyBoard.Core
                 throw new BusinessLogicException("Cannot add to a disabled group");
             }
 
-            if (!Me.AccountGroups.Any(x => x.AccountGroupId == accountGroupId))
+            if (!Me.AccountGroupPeople.Any(x => x.AccountGroupId == accountGroupId))
             {
                 throw new BusinessLogicException("Current user does not belong in this group");
             }
@@ -77,9 +86,15 @@ namespace BountyBoard.Core
         /// <param name="accountGroupId"></param>
         public void DisableAccount(int personId, int accountGroupId)
         {
-            throw new NotImplementedException();
-        }
+            var targetPerson = GetMyColleagues(accountGroupId, true).Single(x => x.Id == personId);
+            var join = targetPerson.AccountGroupPeople.SingleOrDefault(x => x.AccountGroupId == accountGroupId);
+            if (join != null)
+            {
+                Context.Delete<AccountGroupPeople>(join.Id);
+                Context.SaveChanges();
+            }
 
+        }
         /// <summary>
         /// Removes yourself from this org.
         /// </summary>

@@ -9,22 +9,22 @@ namespace BountyBoard.Core.Test.Extensions
 {
     internal static class AccountStuffExtensions
     {
-        internal static AccountGroupPeople AddToGroup(this Person p, AccountGroup group, bool disabledPermissions = false)
+        internal static AccountGroupPeople AddToGroup(this Person p, AccountGroup group, int joinId)
         {
-            if (p.AccountGroups == null)
+            if (p.AccountGroupPeople == null)
             {
-                p.AccountGroups = new List<AccountGroupPeople>();
+                p.AccountGroupPeople = new List<AccountGroupPeople>();
             }
 
             var join = new AccountGroupPeople { AccountGroup = group, AccountGroupId = group.Id, Person = p, PersonId = p.Id };
-            p.AccountGroups.Add(join);
+            p.AccountGroupPeople.Add(join);
             if (group.AccountGroupPeople == null)
             {
                 group.AccountGroupPeople = new List<AccountGroupPeople>();
             }
 
             group.AccountGroupPeople.Add(join);
-
+            join.Id = joinId;
             return join;
         }
 
