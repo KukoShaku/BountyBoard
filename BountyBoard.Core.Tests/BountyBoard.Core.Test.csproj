@@ -54,8 +54,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AccountManagementTests.cs" />
+    <Compile Include="Extensions\AccountStuffExtensions.cs" />
+    <Compile Include="MockObjects\FakeRestrictiveAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeasonAchievementManagementTests.cs" />
+    <Compile Include="UserRestrictedDatabaseLinkTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BountyBoard.Core\BountyBoard.Core.csproj">

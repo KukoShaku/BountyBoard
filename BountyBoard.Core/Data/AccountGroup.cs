@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace BountyBoard.Core.Data
 {
-    public class Season : DatabaseObject
+    public class AccountGroup : DatabaseObject
     {
-        internal Season() { }
-
         public string Name { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime? StartDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public DateTime? EndDate { get; set; }
+        
+        public virtual ICollection<AccountGroupPeople> AccountGroupPeople { get; set; }
+
     }
 }

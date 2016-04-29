@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace BountyBoard.Core
 {
-    public class SeasonAchievementManagement : DatabaseLink
+    public class SeasonAchievementManagement : UserRestrictedDatabaseLink
     {
         private readonly AchievementManagement _achievementManagement;
         private readonly SeasonManagement _seasonManagement;
 
         //takes two crud items
-        public SeasonAchievementManagement(IDatabaseContext context, AchievementManagement achievementManagement, SeasonManagement seasonManagement)
-            : base(context)
+        public SeasonAchievementManagement(IDatabaseContext context, int personId, AchievementManagement achievementManagement, SeasonManagement seasonManagement)
+            : base(context, personId)
         {
             _achievementManagement = achievementManagement;
             _seasonManagement = seasonManagement;
