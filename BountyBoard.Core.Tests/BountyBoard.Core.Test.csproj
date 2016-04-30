@@ -55,6 +55,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AccountManagementTests.cs" />
+    <Compile Include="BasicAccountManagementTests.cs" />
     <Compile Include="Extensions\AccountStuffExtensions.cs" />
     <Compile Include="MockObjects\FakeRestrictiveAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

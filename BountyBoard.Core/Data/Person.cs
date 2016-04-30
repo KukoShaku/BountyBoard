@@ -15,6 +15,8 @@ namespace BountyBoard.Core.Data
         public DateTime? DisabledDate { get; set; }
         public DateTime CreatedDate { get; set; }
 
+        public bool AccountValidated { get; set; }
+
         /// <summary>
         /// For Popular people
         /// </summary>

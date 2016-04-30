@@ -185,5 +185,22 @@ namespace BountyBoard.Core.Test
             fakeContext.Setup(x => x.SaveChanges());
             fakeContext.Verify(x => x.Delete<AccountGroupPeople>(5), Times.Once);
         }
+
+        [TestMethod]
+        public void CreateAccount_BadUser_AddsPerson()
+        {
+            Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
+            var management = SimpleResolve(fakeContext, 1);
+             
+            throw new NotImplementedException();
+        }
+
+        private AccountManagement SimpleResolve(Mock<IDatabaseContext> fakeContext, int v)
+        {
+            var me = new Person { Id = v };
+            
+            fakeContext.Setup(x => x.List<Person>()).Returns(new[] { me }.AsQueryable());
+            return new AccountManagement(fakeContext.Object, v);   
+        }
     }
 }

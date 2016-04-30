@@ -103,5 +103,11 @@ namespace BountyBoard.Core
         {
             DisableAccount(this.Me.Id, accountGroupId);
         }
+
+        public void CreateUser(Person person)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
