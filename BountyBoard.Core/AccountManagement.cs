@@ -1,4 +1,5 @@
 ﻿using BountyBoard.Core.Data;
+using BountyBoard.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,45 +39,46 @@ namespace BountyBoard.Core
         /// </summary>
         /// <param name="person"></param>
         /// <param name="accountGroupId"></param>
-        public void InvitePerson(Person person, int accountGroupId)
+        public void InvitePerson(PersonInvitation invitation)
         {
-            if (person == null)
+            if (invitation == null)
             {
-                throw new ArgumentNullException(nameof(person));
+                throw new ArgumentNullException(nameof(invitation));
             }
 
-            if (accountGroupId <= 0)
+            if (invitation.AccountGroupId <= 0)
             {
-                throw new ArgumentException("Account group id has to be higher than 0", nameof(accountGroupId));
+                throw new ArgumentException("Account group id has to be higher than 0", nameof(invitation.AccountGroupId));
             }
 
-            var accountGroup = Context.List<AccountGroup>().Single(x => x.Id == accountGroupId);
+            var accountGroup = Context.List<AccountGroup>().Single(x => x.Id == invitation.AccountGroupId);
             if (accountGroup.EndDate.HasValue)
             {
                 throw new BusinessLogicException("Cannot add to a disabled group");
             }
 
-            if (!Me.AccountGroupPeople.Any(x => x.AccountGroupId == accountGroupId))
+            if (!Me.AccountGroupPeople.Any(x => x.AccountGroupId == invitation.AccountGroupId))
             {
                 throw new BusinessLogicException("Current user does not belong in this group");
             }
 
-            if (Context.List<AccountGroupPeople>().Any(x => x.PersonId == person.Id && x.AccountGroupId == accountGroupId))
-            {
-                //early return, already added
-                return;
-            }
-            else
-            {
-                var join = new AccountGroupPeople 
-                {
-                    PersonId = person.Id,
-                    AccountGroupId = accountGroupId
-                };
+            throw new NotImplementedException();
+            //if (Context.List<AccountGroupPeople>().Any(x => x.PersonId == person.Id && x.AccountGroupId == accountGroupId))
+            //{
+            //    //early return, already added
+            //    return;
+            //}
+            //else
+            //{
+            //    //var join = new AccountGroupPeople 
+            //    //{
+            //    //    PersonId = person.Id,
+            //    //    AccountGroupId = accountGroupId
+            //    //};
 
-                Context.Add(join);
-                Context.SaveChanges();
-            }
+            //    //Context.Add(join);
+            //    //Context.SaveChanges();
+            //}
         }
 
         /// <summary>
@@ -109,5 +111,9 @@ namespace BountyBoard.Core
             throw new NotImplementedException();
         }
 
+        public void UpdateCredentials(Person person)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

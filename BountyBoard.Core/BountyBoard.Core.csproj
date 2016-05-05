@@ -63,6 +63,7 @@
     <Compile Include="SeasonManagement.cs" />
     <Compile Include="UserRestrictedDatabaseLink.cs" />
     <Compile Include="ViewModels\NewAccountGroup.cs" />
+    <Compile Include="ViewModels\PersonInvitation.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

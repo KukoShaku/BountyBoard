@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BountyBoard.Core.Test.Extensions;
+using BountyBoard.Core.ViewModels;
 
 namespace BountyBoard.Core.Test
 {
@@ -95,24 +96,26 @@ namespace BountyBoard.Core.Test
         }
 
         [TestMethod]
-        public void AddColleague_ExistingUser_CanYouNot()
+        public void InvitePerson_ExistingUserNewGroup_CanYouNot()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var mangement = Resolve(fakeContext, 1);
 
+            fakeContext.Setup(x => x.List<Person>()).Returns(new[] { new Person { } }.AsQueryable());
+
             Person person = new Person { Id = 1 };
             var accountGroupId = 1;
-            mangement.InvitePerson(person, accountGroupId);
+            mangement.InvitePerson(new PersonInvitation() { Email = "email", AccountGroupId = accountGroupId, });
             fakeContext.Verify(x => x.SaveChanges(), Times.Never);
         }
 
         [TestMethod, ExpectedException(typeof(BusinessLogicException))]
-        public void AddColleague_DisabledGroup_ThorwsExceptions()
+        public void InvitePerson_DisabledGroup_ThorwsExceptions()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var mangement = Resolve(fakeContext, 1);
 
-            mangement.InvitePerson(new Person { Id = 10 }, 3);
+            mangement.InvitePerson(new PersonInvitation());
         }
 
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
@@ -121,17 +124,17 @@ namespace BountyBoard.Core.Test
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var management = Resolve(fakeContext, 1);
 
-            management.InvitePerson(new Person { Id = 100 }, 323232);
+            management.InvitePerson(new PersonInvitation());
         }
 
         [TestMethod]
-        public void AddColleague_NewUser_OK()
+        public void InvitePerson_NewUser_OK()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var management = Resolve(fakeContext, 1);
             var newPersonId = 100;
 
-            management.InvitePerson(new Person { Id = newPersonId }, 1);
+            management.InvitePerson(new PersonInvitation());
             fakeContext.Verify(x => x.Add<AccountGroupPeople>(It.Is<AccountGroupPeople>(y => y.PersonId == newPersonId && y.AccountGroupId == 1)));
             fakeContext.Verify(x => x.SaveChanges());
         }
@@ -191,7 +194,7 @@ namespace BountyBoard.Core.Test
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var management = SimpleResolve(fakeContext, 1);
-             
+
             throw new NotImplementedException();
         }
 
@@ -201,6 +204,17 @@ namespace BountyBoard.Core.Test
             
             fakeContext.Setup(x => x.List<Person>()).Returns(new[] { me }.AsQueryable());
             return new AccountManagement(fakeContext.Object, v);   
+        }
+        
+
+        [TestMethod]
+        public void InvitePerson_AlreadyInvited_NothingHappens()
+        {
+            Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
+            AccountManagement management = SimpleResolve(fakeContext, 1);
+
+            management.InvitePerson(new PersonInvitation());
+
         }
     }
 }
