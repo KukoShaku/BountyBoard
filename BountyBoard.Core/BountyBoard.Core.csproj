@@ -47,6 +47,7 @@
     <Compile Include="BusinessLogicException.cs" />
     <Compile Include="CrudLink.cs" />
     <Compile Include="DatabaseLink.cs" />
+    <Compile Include="DataExtensions\PersonExtensions.cs" />
     <Compile Include="Data\AccountGroup.cs" />
     <Compile Include="Data\AccountGroupPeople.cs" />
     <Compile Include="Data\Achievement.cs" />
