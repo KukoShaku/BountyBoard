@@ -52,7 +52,7 @@ namespace BountyBoard.Core.Test
         }
         
 
-        [TestMethod]
+        [TestMethod, TestCategory("Usability")]
         public void GetMyColleagues_JustOnesBelongingToMyJoinedCompanies()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -66,7 +66,7 @@ namespace BountyBoard.Core.Test
             Assert.IsFalse(people.Any(x => x.Id == 6));
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Usability")]
         public void GetMyColleagues_ForCompany_JustThatCompany()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -81,7 +81,7 @@ namespace BountyBoard.Core.Test
             Assert.IsFalse(people.Any(x => x.Id == 6));
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Usability")]
         public void GetColleagues_IncludeDisabledPeople_Works()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -95,7 +95,7 @@ namespace BountyBoard.Core.Test
             Assert.IsFalse(people.Any(x => x.Id == 6));
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Admin")]
         public void InvitePerson_ExistingUserNewGroup_CanYouNot()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -109,8 +109,8 @@ namespace BountyBoard.Core.Test
             fakeContext.Verify(x => x.SaveChanges(), Times.Never);
         }
 
-        [TestMethod, ExpectedException(typeof(BusinessLogicException))]
-        public void InvitePerson_DisabledGroup_ThorwsExceptions()
+        [TestMethod, ExpectedException(typeof(BusinessLogicException)), TestCategory("Admin")]
+        public void InvitePerson_DisabledGroup_ThrowsExceptions()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var mangement = Resolve(fakeContext, 1);
@@ -118,7 +118,7 @@ namespace BountyBoard.Core.Test
             mangement.InvitePerson(new PersonInvitation());
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod, ExpectedException(typeof(InvalidOperationException)), TestCategory("Admin")]
         public void AddColleague_NonExistingGroup_ThrowsExceptions()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -127,7 +127,7 @@ namespace BountyBoard.Core.Test
             management.InvitePerson(new PersonInvitation());
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Admin")]
         public void InvitePerson_NewUser_OK()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -139,7 +139,7 @@ namespace BountyBoard.Core.Test
             fakeContext.Verify(x => x.SaveChanges());
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Admin")]
         public void DisableMyAccount_CurrentOrganisation_IsPossible()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -149,7 +149,7 @@ namespace BountyBoard.Core.Test
             management.DisableMyAccount(2);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod, ExpectedException(typeof(InvalidOperationException)), TestCategory("Security")]
         public void DisableMyAccount_NotMyOrg_Wtfbro()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -159,7 +159,7 @@ namespace BountyBoard.Core.Test
             management.DisableMyAccount(4);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod, ExpectedException(typeof(InvalidOperationException)), TestCategory("Security")]
         public void DisableAccount_NotMyOrg_WtfBro()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -168,7 +168,7 @@ namespace BountyBoard.Core.Test
             management.DisableAccount(6, 4);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod, ExpectedException(typeof(InvalidOperationException)), TestCategory("Security")]
         public void DisableAccount_NotMyColleague_WtfBro()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -177,7 +177,7 @@ namespace BountyBoard.Core.Test
             management.DisableAccount(6, 2);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Admin")]
         public void DisableAccount_MyOrg_SavesChanges()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -189,7 +189,7 @@ namespace BountyBoard.Core.Test
             fakeContext.Verify(x => x.Delete<AccountGroupPeople>(5), Times.Once);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Admin")]
         public void CreateAccount_BadUser_AddsPerson()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -207,7 +207,7 @@ namespace BountyBoard.Core.Test
         }
         
 
-        [TestMethod]
+        [TestMethod, TestCategory("Admin")]
         public void InvitePerson_AlreadyInvited_NothingHappens()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
