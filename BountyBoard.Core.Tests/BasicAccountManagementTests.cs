@@ -13,7 +13,7 @@ namespace BountyBoard.Core.Test
     public class BasicAccountManagementTests
     {
 
-        [TestMethod, ExpectedException(typeof(BusinessLogicException))]
+        [TestMethod, ExpectedException(typeof(BusinessLogicException)), TestCategory("Usability")]
         public void CreateNewAccountGroup_NoAccount_ThrowsException()
         {
             Mock<IDatabaseContext> context = new Mock<IDatabaseContext>();
@@ -22,7 +22,7 @@ namespace BountyBoard.Core.Test
             mng.CreateNewAccountGroup(new ViewModels.NewAccountGroup { AdministratorUserName = "Hello" });
         }
 
-        [TestMethod, ExpectedException(typeof(BusinessLogicException))]
+        [TestMethod, ExpectedException(typeof(BusinessLogicException)), TestCategory("Admin")]
         public void CreateNewAccountGroup_NoUserName_ThrowsException()
         {
             Mock<IDatabaseContext> context = new Mock<IDatabaseContext>();
@@ -31,7 +31,7 @@ namespace BountyBoard.Core.Test
             mng.CreateNewAccountGroup(new ViewModels.NewAccountGroup { GroupName = "Hello" });
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Admin")]
         public void CreateNewAccountGroup_Normal_SavesChanges()
         {
             Mock<IDatabaseContext> context = new Mock<IDatabaseContext>();

@@ -24,7 +24,7 @@ namespace BountyBoard.Core.Tests
             return new SeasonAchievementManagement(context.Object, 0, a, s);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod, ExpectedException(typeof(InvalidOperationException)), TestCategory("Achievement Admin")]
         public void Join_NonExistingAchievement_Fails()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -34,7 +34,7 @@ namespace BountyBoard.Core.Tests
             mangement.Join(-1, 1);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod, ExpectedException(typeof(InvalidOperationException)), TestCategory("Achievement Admin")]
         public void Join_NonExistingSeason_Fails()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -44,7 +44,7 @@ namespace BountyBoard.Core.Tests
             mangement.Join(1, -1);
         }
 
-        [TestMethod, ExpectedException(typeof(BusinessLogicException))]
+        [TestMethod, ExpectedException(typeof(BusinessLogicException)), TestCategory("Achievement Admin")]
         public void Join_ActiveSeason_Fails()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -54,7 +54,7 @@ namespace BountyBoard.Core.Tests
             mangement.Join(1, 1);
         }
 
-        [TestMethod, ExpectedException(typeof(BusinessLogicException))]
+        [TestMethod, ExpectedException(typeof(BusinessLogicException)), TestCategory("Achievement Admin")]
         public void Join_UnapprovedAchievement_Fails()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -64,7 +64,7 @@ namespace BountyBoard.Core.Tests
             mangement.Join(1, 1);
         }
 
-        [TestMethod, ExpectedException(typeof(BusinessLogicException))]
+        [TestMethod, ExpectedException(typeof(BusinessLogicException)), TestCategory("Achievement Admin")]
         public void Join_ExistingPair_ThrowsError()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -75,7 +75,7 @@ namespace BountyBoard.Core.Tests
             mangement.Join(1, 1);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Achievement Admin")]
         public void Join_CorrectInput_AddsAndSaves()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -87,7 +87,7 @@ namespace BountyBoard.Core.Tests
             fakeContext.Verify(x => x.Add<SeasonAchievement>(It.IsAny<SeasonAchievement>()), Times.Once);
         }
 
-        [TestMethod, ExpectedException(typeof(BusinessLogicException))]
+        [TestMethod, ExpectedException(typeof(BusinessLogicException)), TestCategory("Achievement Admin")]
         public void Remove_ActiveSeason_Fails()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -96,7 +96,7 @@ namespace BountyBoard.Core.Tests
             mangement.Remove(1);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod, ExpectedException(typeof(InvalidOperationException)), TestCategory("Achievement Admin")]
         public void Remove_NonExistingSeasonAchievement_Fails()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -105,7 +105,7 @@ namespace BountyBoard.Core.Tests
             mangement.Remove(-1);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Achievement Admin")]
         public void Remove_CorrectRecord_CallsDelete()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();

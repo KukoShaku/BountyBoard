@@ -11,26 +11,26 @@ namespace BountyBoard.Core.Test
     public class Templates
     {
 
-        [TestMethod]
-        public void Top5Achievements_Person()
+        [TestMethod, TestCategory("Usability")]
+        public void ZZTop5Achievements_Person()
         {
             throw new NotImplementedException();
         }
 
-        [TestMethod]
-        public void TrackProgres_person()
+        [TestMethod, TestCategory("Usability")]
+        public void ZZTrackProgres_person()
         {
             throw new NotImplementedException();
         }
 
-        [TestMethod]
-        public void PetStatus_NoPets()
+        [TestMethod, TestCategory("Pets")]
+        public void ZZPetStatus_NoPets()
         {
             throw new NotImplementedException();
         }
 
-        [TestMethod]
-        public void AlmostThereAchievements()
+        [TestMethod, TestCategory("Usability")]
+        public void ZZAlmostThereAchievements()
         {
 
             //everyone wants to see what is within their reach
@@ -38,21 +38,21 @@ namespace BountyBoard.Core.Test
 
         }
 
-        [TestMethod]
-        public void RollTodaysAchievements()
+        [TestMethod, TestCategory("Usability")]
+        public void ZZRollTodaysAchievements()
         {
             throw new NotImplementedException("Pick an achievement for the day? Or week? and have it save in the database");
 
         }
 
-        [TestMethod]
-        public void HallOfFame_Person()
+        [TestMethod, TestCategory("Usability")]
+        public void ZZHallOfFame_Person()
         {
             throw new NotImplementedException("I would like to see all of my previous highlights"); 
         }
 
-        [TestMethod]
-        public void AdditiveAchievements()
+        [TestMethod, TestCategory("Usability")]
+        public void ZZAdditiveAchievements()
         {
             throw new NotImplementedException("Deal with additive acheivements that are based on events");
         }

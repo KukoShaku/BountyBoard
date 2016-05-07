@@ -13,7 +13,7 @@ namespace BountyBoard.Core.Test
     [TestClass]
     public class UserRestrictedDatabaseLinkTests
     {
-        [TestMethod]
+        [TestMethod, TestCategory("Security")]
         public void Constructor_FakeRestrictiveAccess_ActiveUser()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
@@ -23,7 +23,7 @@ namespace BountyBoard.Core.Test
             Assert.IsTrue(access.ValidUser);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod, ExpectedException(typeof(InvalidOperationException)), TestCategory("Security")]
         public void Constructor_DisabledAccount_ThrowsException()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
