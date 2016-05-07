@@ -124,7 +124,14 @@ namespace BountyBoard.Core.Test
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var management = Resolve(fakeContext, 1);
 
-            management.InvitePerson(new PersonInvitation());
+            management.InvitePerson(new PersonInvitation()
+            {
+                AccountGroupId = 999, //this account group id doesn't exist in resolve()
+                Email = "Testemail@something.com",
+                Name = "TestUser",
+                InvitedByPersonId = 1 //valid person as seen in resolve()
+            });
+            //this expects that the get account groups doesn't exist
         }
 
         [TestMethod, TestCategory("Admin")]
