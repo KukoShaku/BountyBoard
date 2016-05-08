@@ -14,7 +14,15 @@ namespace BountyBoard.Core.Test
     [TestClass]
     public class AccountManagementTests
     {
-
+        /// <summary>
+        /// A template for a whole bunch of things.
+        /// Account groups 1, 2
+        /// People 1-5 join to account groups in various ways. Some users
+        /// have been disabled
+        /// </summary>
+        /// <param name="currentPerson"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public AccountManagement Resolve(Mock<IDatabaseContext> context, int currentPerson)
         {
             var accountGroup1 = new AccountGroup { Id = 1 };
@@ -50,7 +58,7 @@ namespace BountyBoard.Core.Test
             context.Setup(x => x.List<AccountGroupPeople>()).Returns(new AccountGroupPeople[] { g1, g2, g3, g4, g5, g6, g7, g8, g9, g10 }.AsQueryable());
             return new AccountManagement(context.Object, currentPerson);
         }
-        
+
 
         [TestMethod, TestCategory("Usability")]
         public void GetMyColleagues_JustOnesBelongingToMyJoinedCompanies()
@@ -73,7 +81,7 @@ namespace BountyBoard.Core.Test
             var mangement = Resolve(fakeContext, 1);
             var people = mangement.GetMyColleagues(2);
 
-            
+
             Assert.IsFalse(people.Any(x => x.Id == 2));
             Assert.IsFalse(people.Any(x => x.Id == 3));
             Assert.IsTrue(people.Any(x => x.Id == 4));
@@ -129,7 +137,6 @@ namespace BountyBoard.Core.Test
                 AccountGroupId = 999, //this account group id doesn't exist in resolve()
                 Email = "Testemail@something.com",
                 Name = "TestUser",
-                InvitedByPersonId = 1 //valid person as seen in resolve()
             });
             //this expects that the get account groups doesn't exist
         }
@@ -141,7 +148,12 @@ namespace BountyBoard.Core.Test
             var management = Resolve(fakeContext, 1);
             var newPersonId = 100;
 
-            management.InvitePerson(new PersonInvitation());
+            management.InvitePerson(new PersonInvitation()
+            {
+                Email = "Yes",
+                Name = "yes",
+                AccountGroupId = 1,
+            });
             fakeContext.Verify(x => x.Add<AccountGroupPeople>(It.Is<AccountGroupPeople>(y => y.PersonId == newPersonId && y.AccountGroupId == 1)));
             fakeContext.Verify(x => x.SaveChanges());
         }
@@ -161,7 +173,7 @@ namespace BountyBoard.Core.Test
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             //person 1 only exists in org1 and org2
-            var management = Resolve(fakeContext, 1); 
+            var management = Resolve(fakeContext, 1);
 
             management.DisableMyAccount(4);
         }
@@ -191,37 +203,89 @@ namespace BountyBoard.Core.Test
             var management = Resolve(fakeContext, 1);
 
             management.DisableAccount(3, 2);
-            
+
             fakeContext.Setup(x => x.SaveChanges());
             fakeContext.Verify(x => x.Delete<AccountGroupPeople>(5), Times.Once);
         }
 
-        [TestMethod, TestCategory("Admin")]
-        public void CreateAccount_BadUser_AddsPerson()
-        {
-            Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
-            var management = SimpleResolve(fakeContext, 1);
-
-            throw new NotImplementedException();
-        }
-
         private AccountManagement SimpleResolve(Mock<IDatabaseContext> fakeContext, int v)
         {
-            var me = new Person { Id = v };
-            
+            var groupPeople = new AccountGroupPeople { AccountGroupId = 1 };
+            var me = new Person
+            {
+                Id = v,
+                AccountGroupPeople = new[] 
+                {
+                    groupPeople
+                }
+            };
+            var accountGroup = new AccountGroup() { Id = 1 };
+            groupPeople.AccountGroup = accountGroup;
+
+            fakeContext.Setup(x => x.List<AccountGroupPeople>()).Returns(new[] { groupPeople }.AsQueryable());
+            fakeContext.Setup(x => x.List<AccountGroup>()).Returns(new[] { accountGroup }.AsQueryable());
             fakeContext.Setup(x => x.List<Person>()).Returns(new[] { me }.AsQueryable());
-            return new AccountManagement(fakeContext.Object, v);   
+            return new AccountManagement(fakeContext.Object, v);
         }
-        
 
         [TestMethod, TestCategory("Admin")]
-        public void InvitePerson_AlreadyInvited_NothingHappens()
+        public void InvitePerson_DifferentAccountGroup_AddsInvitation()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             AccountManagement management = SimpleResolve(fakeContext, 1);
 
-            management.InvitePerson(new PersonInvitation());
+            AccountGroup accountGroup = new AccountGroup { Id = 6, };
+            Person someoneElse = new Person
+            {
+                Id = 2,
+            };
 
+            string email = "hello world";
+            var invitation = new PersonInvitation
+            {
+                Email = email,
+                AccountGroupId = 2,
+                Name = "dun matter"
+            };
+
+            management.InvitePerson(invitation);
+            fakeContext.Verify(x => x.Add(It.IsAny<Invitation>()), Times.Once);
+        }
+
+        [TestMethod, TestCategory("Admin")]
+        public void InvitePerson_AlreadyInvitedBySomeoneElse_UpdatesExpirationDate()
+        {
+            Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
+            AccountManagement management = SimpleResolve(fakeContext, 1);
+            //this needs to be 1 because you can only add groups that you belong to
+            AccountGroup accountGroup = new AccountGroup { Id = 1, }; 
+            Person someoneElse = new Person
+            {
+                Id = 2,
+            };
+
+            string email = "test";
+            var subjectInvitation = new Invitation
+            {
+                EmailAddress = email,
+                AccountGroup = accountGroup,
+                AccountGroupId = accountGroup.Id,
+                InvitedBy = someoneElse,
+                InvitedById = someoneElse.Id,
+                ExpirationDate = DateTime.MinValue,
+            };
+
+            fakeContext.Setup(x => x.List<Invitation>()).Returns(new[] { subjectInvitation }.AsQueryable());
+            management.InvitePerson(new PersonInvitation()
+            {
+                Email = email,
+                AccountGroupId = accountGroup.Id,
+                Name = "test"
+            });
+
+            //we will test to see that database update is called as well as expiration date has been reset
+            fakeContext.Verify(x => x.SaveChanges(), Times.Once);
+            Assert.IsTrue(subjectInvitation.ExpirationDate > DateTime.Now);
         }
     }
 }
