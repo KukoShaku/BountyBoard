@@ -1,4 +1,5 @@
 ﻿using BountyBoard.Core.Data;
+using BountyBoard.Core.Management;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;

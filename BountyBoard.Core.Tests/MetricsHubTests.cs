@@ -1,4 +1,5 @@
 ﻿using BountyBoard.Core.Data;
+using BountyBoard.Core.Metrics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -12,8 +13,8 @@ namespace BountyBoard.Core.Test
     [TestClass]
     public class MetricsHubTests
     {
-        [TestMethod]
-        public void AvailableMetrics_SimpleSearchString_ReturnsResults()
+        [TestMethod, TestCategory("Metrics")]
+        public void AvailableMetrics_ReturnsResults()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             fakeContext.Setup(x => x.List<Person>()).Returns(new[] { new Person
@@ -22,6 +23,9 @@ namespace BountyBoard.Core.Test
             } }.AsQueryable());
 
             var hub = new MetricsHub(fakeContext.Object, 1);
+
+            var metrics = hub.AvailableMetrics;
+            Assert.IsTrue(metrics.Any());
         }
     }
 }

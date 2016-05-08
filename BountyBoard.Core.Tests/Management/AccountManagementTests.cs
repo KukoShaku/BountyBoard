@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BountyBoard.Core.Test.Extensions;
 using BountyBoard.Core.ViewModels;
+using BountyBoard.Core.Management;
 
 namespace BountyBoard.Core.Test
 {
