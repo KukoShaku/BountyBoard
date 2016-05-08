@@ -103,27 +103,17 @@ namespace BountyBoard.Core.Test
             Assert.IsFalse(people.Any(x => x.Id == 6));
         }
 
-        [TestMethod, TestCategory("Admin")]
-        public void InvitePerson_ExistingUserNewGroup_CanYouNot()
-        {
-            Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
-            var mangement = Resolve(fakeContext, 1);
-
-            fakeContext.Setup(x => x.List<Person>()).Returns(new[] { new Person { } }.AsQueryable());
-
-            Person person = new Person { Id = 1 };
-            var accountGroupId = 1;
-            mangement.InvitePerson(new PersonInvitation() { Email = "email", AccountGroupId = accountGroupId, });
-            fakeContext.Verify(x => x.SaveChanges(), Times.Never);
-        }
-
         [TestMethod, ExpectedException(typeof(BusinessLogicException)), TestCategory("Admin")]
         public void InvitePerson_DisabledGroup_ThrowsExceptions()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var mangement = Resolve(fakeContext, 1);
 
-            mangement.InvitePerson(new PersonInvitation());
+            mangement.InvitePerson(new PersonInvitation() {
+                AccountGroupId = 3,
+                Email = "test",
+                Name = "dun matter"
+            });
         }
 
         [TestMethod, ExpectedException(typeof(InvalidOperationException)), TestCategory("Admin")]
@@ -146,7 +136,6 @@ namespace BountyBoard.Core.Test
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var management = Resolve(fakeContext, 1);
-            var newPersonId = 100;
 
             management.InvitePerson(new PersonInvitation()
             {
@@ -154,7 +143,8 @@ namespace BountyBoard.Core.Test
                 Name = "yes",
                 AccountGroupId = 1,
             });
-            fakeContext.Verify(x => x.Add<AccountGroupPeople>(It.Is<AccountGroupPeople>(y => y.PersonId == newPersonId && y.AccountGroupId == 1)));
+
+            fakeContext.Verify(x => x.Add(It.Is<Invitation>(y => y.Name == "yes")), Times.Once);
             fakeContext.Verify(x => x.SaveChanges());
         }
 
@@ -208,22 +198,22 @@ namespace BountyBoard.Core.Test
             fakeContext.Verify(x => x.Delete<AccountGroupPeople>(5), Times.Once);
         }
 
-        private AccountManagement SimpleResolve(Mock<IDatabaseContext> fakeContext, int v)
+        private AccountManagement SimpleResolve(Mock<IDatabaseContext> fakeContext, int v, params int[] accountGroupIds)
         {
-            var groupPeople = new AccountGroupPeople { AccountGroupId = 1 };
             var me = new Person
             {
                 Id = v,
-                AccountGroupPeople = new[] 
-                {
-                    groupPeople
-                }
             };
-            var accountGroup = new AccountGroup() { Id = 1 };
-            groupPeople.AccountGroup = accountGroup;
 
-            fakeContext.Setup(x => x.List<AccountGroupPeople>()).Returns(new[] { groupPeople }.AsQueryable());
-            fakeContext.Setup(x => x.List<AccountGroup>()).Returns(new[] { accountGroup }.AsQueryable());
+            var accountGroups = accountGroupIds.Select(x => new AccountGroup
+            {
+                Id = x,
+            });
+
+            me.AccountGroupPeople = accountGroups.Select(x => new AccountGroupPeople() { AccountGroup = x, AccountGroupId = x.Id }).ToList();
+
+            fakeContext.Setup(x => x.List<AccountGroupPeople>()).Returns(me.AccountGroupPeople.AsQueryable());
+            fakeContext.Setup(x => x.List<AccountGroup>()).Returns(accountGroups.AsQueryable());
             fakeContext.Setup(x => x.List<Person>()).Returns(new[] { me }.AsQueryable());
             return new AccountManagement(fakeContext.Object, v);
         }
@@ -232,7 +222,7 @@ namespace BountyBoard.Core.Test
         public void InvitePerson_DifferentAccountGroup_AddsInvitation()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
-            AccountManagement management = SimpleResolve(fakeContext, 1);
+            AccountManagement management = SimpleResolve(fakeContext, 1, 1, 2);
 
             AccountGroup accountGroup = new AccountGroup { Id = 6, };
             Person someoneElse = new Person
@@ -256,7 +246,7 @@ namespace BountyBoard.Core.Test
         public void InvitePerson_AlreadyInvitedBySomeoneElse_UpdatesExpirationDate()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
-            AccountManagement management = SimpleResolve(fakeContext, 1);
+            AccountManagement management = SimpleResolve(fakeContext, 1, 1);
             //this needs to be 1 because you can only add groups that you belong to
             AccountGroup accountGroup = new AccountGroup { Id = 1, }; 
             Person someoneElse = new Person
