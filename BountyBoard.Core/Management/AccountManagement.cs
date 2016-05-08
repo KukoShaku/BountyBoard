@@ -2,6 +2,7 @@
 using BountyBoard.Core.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,8 @@ namespace BountyBoard.Core.Management
 {
     public class AccountManagement : UserRestrictedDatabaseLink
     {
-        public const int EmailDays = 30;
+        public const int DefaultEmailExpirationDays = 30;
+        private int EmailDays = ConfigurationManager.AppSettings["EmailExpirationDays"].TryConvert(DefaultEmailExpirationDays);
 
         public AccountManagement(IDatabaseContext context, int personId)  
             : base (context, personId)
