@@ -16,7 +16,9 @@ namespace BountyBoard.Core
         protected UserRestrictedDatabaseLink(IDatabaseContext context, int personId) 
             : base(context)
         {
-            _person = Context.List<Person>().Single(x => x.Id == personId && !x.DisabledDate.HasValue);
+            _person = Context.List<Person>().Single(x => 
+                x.Id == personId 
+                && !x.DisabledDate.HasValue);
         }
     }
 }

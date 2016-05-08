@@ -40,10 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountManagement.cs" />
-    <Compile Include="AchievementManagement.cs" />
-    <Compile Include="AwardManagement.cs" />
-    <Compile Include="BasicAccountManagement.cs" />
+    <Compile Include="Management\AccountManagement.cs" />
+    <Compile Include="Management\AchievementManagement.cs" />
+    <Compile Include="Management\AwardManagement.cs" />
+    <Compile Include="Management\BasicAccountManagement.cs" />
     <Compile Include="BusinessLogicException.cs" />
     <Compile Include="CrudLink.cs" />
     <Compile Include="DatabaseLink.cs" />
@@ -60,9 +60,10 @@
     <Compile Include="Data\Season.cs" />
     <Compile Include="Data\SeasonAchievement.cs" />
     <Compile Include="IDatabaseContext.cs" />
-    <Compile Include="SeasonAchievementManagement.cs" />
+    <Compile Include="Management\SeasonAchievementManagement.cs" />
+    <Compile Include="MetricsHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SeasonManagement.cs" />
+    <Compile Include="Management\SeasonManagement.cs" />
     <Compile Include="UserRestrictedDatabaseLink.cs" />
     <Compile Include="ViewModels\NewAccountGroup.cs" />
     <Compile Include="ViewModels\PersonInvitation.cs" />
