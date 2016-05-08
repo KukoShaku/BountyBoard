@@ -10,6 +10,8 @@ namespace BountyBoard.Core
 {
     public class AccountManagement : UserRestrictedDatabaseLink
     {
+        public const int EmailDays = 30;
+
         public AccountManagement(IDatabaseContext context, int personId)  
             : base (context, personId)
         {
@@ -62,23 +64,30 @@ namespace BountyBoard.Core
                 throw new BusinessLogicException("Current user does not belong in this group");
             }
 
-            throw new NotImplementedException();
-            //if (Context.List<AccountGroupPeople>().Any(x => x.PersonId == person.Id && x.AccountGroupId == accountGroupId))
-            //{
-            //    //early return, already added
-            //    return;
-            //}
-            //else
-            //{
-            //    //var join = new AccountGroupPeople 
-            //    //{
-            //    //    PersonId = person.Id,
-            //    //    AccountGroupId = accountGroupId
-            //    //};
+            var existingInvitation = Context.List<Invitation>()
+                .SingleOrDefault(x => x.EmailAddress.Equals(invitation.Email, StringComparison.OrdinalIgnoreCase)
+                    && x.AccountGroupId == invitation.AccountGroupId);
+            if (existingInvitation == null)
+            {
+                Context.Add(new Invitation
+                {
+                    AccountGroup = accountGroup,
+                    AccountGroupId = invitation.AccountGroupId,
+                    EmailAddress = invitation.Email,
+                    ExpirationDate = DateTime.Now.AddDays(EmailDays),
+                    InvitedById = this.Me.Id,
+                    InvitedBy = this.Me,
+                    Name = invitation.Name,
+                });
 
-            //    //Context.Add(join);
-            //    //Context.SaveChanges();
-            //}
+            }
+            else
+            {
+                existingInvitation.ExpirationDate = DateTime.Now.AddDays(EmailDays);
+            }
+
+            Context.SaveChanges();
+            
         }
 
         /// <summary>
@@ -105,15 +114,6 @@ namespace BountyBoard.Core
         {
             DisableAccount(this.Me.Id, accountGroupId);
         }
-
-        public void CreateUser(Person person)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateCredentials(Person person)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

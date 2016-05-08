@@ -43,7 +43,7 @@ namespace BountyBoard.Core
 
             var person = new Person
             {
-                Name = accountGroup.Name,
+                Name = newAccountGroup.AdministratorUserName,
                 Description = newAccountGroup.PersonDescription,
                 CreatedDate = DateTime.Now,
                 Email = newAccountGroup.Email

@@ -10,7 +10,6 @@ namespace BountyBoard.Core.ViewModels
     {
         public string Email { get; set; }
         public string Name { get; set; }
-        public int InvitedByPersonId { get; set; }
         public int AccountGroupId { get; internal set; }
     }
 }

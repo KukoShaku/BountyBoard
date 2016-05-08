@@ -53,6 +53,7 @@
     <Compile Include="Data\Achievement.cs" />
     <Compile Include="Data\AwardedAchievement.cs" />
     <Compile Include="Data\DatabaseObject.cs" />
+    <Compile Include="Data\Invitation.cs" />
     <Compile Include="Data\Person.cs" />
     <Compile Include="Data\PersonRole.cs" />
     <Compile Include="Data\Role.cs" />

@@ -26,5 +26,11 @@ namespace BountyBoard.Core.Data
         /// Collection of Awarded achievements based on season
         /// </summary>
         public virtual ICollection<AwardedAchievement> Awards { get; set; }
+
+        /// <summary>
+        /// 0 to many people this person has invited into the game
+        /// Used during invitation and sendouts
+        /// </summary>
+        public virtual ICollection<Invitation> Invitations { get; set; }
     }
 }
