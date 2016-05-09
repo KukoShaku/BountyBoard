@@ -32,5 +32,11 @@ namespace BountyBoard.Core.Data
         /// Used during invitation and sendouts
         /// </summary>
         public virtual ICollection<Invitation> Invitations { get; set; }
+
+        /// <summary>
+        /// Keys that this person has created.
+        /// </summary>
+        public virtual ICollection<ApiKey> CreatedKeys { get; set; }
+
     }
 }

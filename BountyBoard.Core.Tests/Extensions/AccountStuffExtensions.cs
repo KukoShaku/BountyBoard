@@ -25,6 +25,7 @@ namespace BountyBoard.Core.Test.Extensions
 
             group.AccountGroupPeople.Add(join);
             join.Id = joinId;
+            join.PermissionLevel = PermissionLevel.Normal;
             return join;
         }
 

@@ -15,5 +15,7 @@ namespace BountyBoard.Core.Data
         public int PersonId { get; set; }
         public AccountGroup AccountGroup { get; set; }
         public int AccountGroupId { get; set; }
+
+        public PermissionLevel PermissionLevel { get; set; }
     }
 }

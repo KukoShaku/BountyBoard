@@ -9,7 +9,8 @@ namespace BountyBoard.Core.Metrics
     public class AchievementMetricDetails : MetricDetail<AchievementMetricInput>
     {
         
-        public AchievementMetricDetails() :base("Achievements", "Something")
+        public AchievementMetricDetails() 
+            :base("Achievements", "I have no idea what this is suppose to be doing.")
         {
 
         }
