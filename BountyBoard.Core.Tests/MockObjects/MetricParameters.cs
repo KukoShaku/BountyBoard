@@ -13,7 +13,7 @@ namespace BountyBoard.Core.Test.MockObjects
         {
             get
             {
-                throw new NotImplementedException();
+                return "This is some test json data";
             }
         }
 
@@ -21,5 +21,10 @@ namespace BountyBoard.Core.Test.MockObjects
 
         public string UsageText { get; set; }
         
+        public MetricParameters(Guid key)
+        {
+            Key = key;
+        }
+
     }
 }

@@ -37,7 +37,7 @@ namespace BountyBoard.Core.Test.Management
             }.AsQueryable());
 
 
-            var result = new ApiKeyManagement(fakeContext.Object, currentUser);
+            var result = new ApiKeyManagement(fakeContext.Object, currentUser, 1);
             return result;
         }
 
@@ -47,7 +47,7 @@ namespace BountyBoard.Core.Test.Management
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var mng = Resolve(fakeContext, 1);
 
-            mng.CreateKey();
+            mng.CreateKey("Hello world");
 
             fakeContext.Verify(x => x.SaveChanges(), Times.Once);
             fakeContext.Verify(x => x.Add(It.Is<ApiKey>(y => y.CreatedById == 1)), Times.Once);
@@ -59,21 +59,25 @@ namespace BountyBoard.Core.Test.Management
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var mng = Resolve(fakeContext, 1);
 
-            mng.CreateKey();
+            mng.CreateKey("Hello world");
 
             fakeContext.Verify(x => x.Add(It.Is<ApiKey>(y => y.Key == Guid.Empty)), Times.Never);
             fakeContext.Verify(x => x.SaveChanges(), Times.Once);
         }
 
-        [TestMethod, ExpectedException(typeof(BusinessLogicException)), TestCategory("Secuity")]
+        [TestMethod, ExpectedException(typeof(UnauthorizedAccessException)), TestCategory("Security")]
         public void CreateKey_NormalUser_Fails()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
-            var mng = Resolve(fakeContext, 1);
+            var person = new Person { Id = 1,  };
+            var accountGroup = new AccountGroup { Id = 1, };
+            var join = person.AddToGroup(accountGroup, 2);
+            join.PermissionLevel = PermissionLevel.Normal; // the really important bit
+            fakeContext.Setup(x => x.List<Person>()).Returns(new[] { person }.AsQueryable());
 
-            mng.CreateKey();
+            var mng = new ApiKeyManagement(fakeContext.Object, 1, 1);
 
-
+            mng.CreateKey("Test");
         }
 
         [TestMethod]
@@ -82,19 +86,22 @@ namespace BountyBoard.Core.Test.Management
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var mng = Resolve(fakeContext, 1);
             Guid oldKey = Guid.NewGuid();
+
+            var apiKey = new ApiKey
+            {
+                Id = 100,
+                AccountGroupId = 1,
+                Key = oldKey,
+            };
             fakeContext.Setup(x => x.List<ApiKey>())
-                .Returns(new[] { new ApiKey
-                {
-                    AccountGroupId = 1,
-                    Key = oldKey,
-                }
-            }.AsQueryable());
+                .Returns(new[] { apiKey }.AsQueryable());
 
             mng.RegenerateKey(100);
 
             fakeContext.Verify(x => x.SaveChanges(), Times.Once);
-            fakeContext.Verify(x => x.Update(It.Is<ApiKey>(y => y.Key != oldKey)));
+            Assert.AreNotEqual(oldKey, apiKey.Key);
         }
+
 
         
     }

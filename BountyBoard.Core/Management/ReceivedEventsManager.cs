@@ -16,17 +16,27 @@ namespace BountyBoard.Core.Management
 
         }
 
-        private void Validate(IMetricParameters parameters)
+        private ApiKey GetKey(IMetricParameters parameters)
         {
-            Context.List<ApiKey>().Single(x => x.Key == parameters.Key 
+            return Context.List<ApiKey>().Single(x => x.Key == parameters.Key 
                 && x.IsActive 
                 && x.ValidUpTo > DateTime.Now);
+            //this needs to throw better errors
         }
 
         internal void AddData(IMetricParameters par)
         {
-            Validate(par);
-            throw new NotImplementedException();
+            var apiKey = GetKey(par);
+            Context.Add(new ReceivedEvent
+            {
+                GroupId = apiKey.AccountGroupId,
+                Group = apiKey.AccountGroup,
+                ReceivedDate = DateTime.Now,
+                JsonData = par.AsData,
+                ProcessedTime = null, //explicitly set this 
+                Error = null //no errors as of yet
+            });
+            Context.SaveChanges();
         }
     }
 }

@@ -75,10 +75,10 @@ namespace BountyBoard.Core.Test
 
             //needs to return exactly an admin record and a superadmin record
             var access2 = new FakeRestrictiveAccess(fakeContext.Object, 2);
-            Assert.IsTrue(access1.MyPermissions.Any(x => x.Value == PermissionLevel.Admin && x.Key.Id == 1));
-            Assert.IsTrue(access1.MyPermissions.Any(x => x.Value == PermissionLevel.SuperAdmin && x.Key.Id == 2));
-            Assert.IsFalse(access1.MyPermissions.Any(x => x.Value == PermissionLevel.Normal));
-            Assert.IsFalse(access1.MyPermissions.Any(x => x.Value == PermissionLevel.Disable));
+            Assert.IsTrue(access2.MyPermissions.Any(x => x.Value == PermissionLevel.Admin && x.Key.Id == 1));
+            Assert.IsTrue(access2.MyPermissions.Any(x => x.Value == PermissionLevel.SuperAdmin && x.Key.Id == 2));
+            Assert.IsFalse(access2.MyPermissions.Any(x => x.Value == PermissionLevel.Normal));
+            Assert.IsFalse(access2.MyPermissions.Any(x => x.Value == PermissionLevel.Disable));
 
 
             //this is to test what's happening with disabled account groups

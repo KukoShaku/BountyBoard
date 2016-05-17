@@ -41,10 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountBasedManagement.cs" />
     <Compile Include="Data\ApiKey.cs" />
     <Compile Include="Data\PermissionLevel.cs" />
     <Compile Include="Data\ReceivedEvent.cs" />
     <Compile Include="Management\ApiKeyManagement.cs" />
+    <Compile Include="Management\BackgroundManager.cs" />
     <Compile Include="Management\ReceivedEventsManager.cs" />
     <Compile Include="Metrics\AchievementMetricDetails.cs" />
     <Compile Include="Metrics\AchievementMetricInput.cs" />

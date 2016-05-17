@@ -17,7 +17,9 @@ namespace BountyBoard.Core
         {
             get
             {
-                throw new NotImplementedException();
+                return Me.AccountGroupPeople
+                    .Where(x => x.AccountGroup.EndDate == null) //do not select the disabled ones
+                    .Select(x => new KeyValuePair<AccountGroup, PermissionLevel>(x.AccountGroup, x.PermissionLevel));
             }
         }
 

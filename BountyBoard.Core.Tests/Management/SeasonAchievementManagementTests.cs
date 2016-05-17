@@ -118,5 +118,14 @@ namespace BountyBoard.Core.Tests
             
         }
 
+        [TestMethod]
+        public void StartSeason_CorrectDetails_DoesEverything()
+        {
+            Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
+            //Setup all the players
+            //Background Process linke!!?
+            throw new NotImplementedException();
+        }
+
     }
 }

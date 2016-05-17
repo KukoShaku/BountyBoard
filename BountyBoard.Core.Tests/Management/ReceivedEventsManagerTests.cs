@@ -37,9 +37,10 @@ namespace BountyBoard.Core.Test.Management
                         AccountGroupId = groupId,
                         IsActive = true,
                         ValidUpTo = DateTime.MaxValue,
+                        AccountGroup = new AccountGroup { Id = 222, }
                     }
                 }.AsQueryable());
-            IMetricParameters par = new MetricParameters();
+            IMetricParameters par = new MetricParameters(key);
             manager.AddData(par);
             
             fakeContext.Verify(x => x.Add(It.Is<ReceivedEvent>(y => y.ReceivedDate.Date == DateTime.Today
@@ -69,7 +70,7 @@ namespace BountyBoard.Core.Test.Management
                     }
                 }.AsQueryable());
 
-            IMetricParameters par = new MetricParameters();
+            IMetricParameters par = new MetricParameters(key);
             manager.AddData(par);
         }
 
@@ -79,7 +80,7 @@ namespace BountyBoard.Core.Test.Management
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
             var manager = Resolve(fakeContext);
 
-            IMetricParameters par = new MetricParameters();
+            IMetricParameters par = new MetricParameters(Guid.NewGuid());
             manager.AddData(par);
         }
 

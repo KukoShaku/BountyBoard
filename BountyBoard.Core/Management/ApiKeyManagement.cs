@@ -7,24 +7,56 @@ using System.Threading.Tasks;
 
 namespace BountyBoard.Core.Management
 {
-    public class ApiKeyManagement : UserRestrictedDatabaseLink
+    public class ApiKeyManagement : AccountBasedManagement
     {
-        public ApiKeyManagement(IDatabaseContext context, int personId)
-            :base(context, personId)
+        //TODO: Change the implementation later
+        private const int DefaultApiKeyValidDays = 356;
+        public ApiKeyManagement(IDatabaseContext context, int personId, int accountId)
+            :base(context, personId, accountId)
         {
-            throw new NotImplementedException();
+            if (!CanDoStuff)
+            {
+                throw new UnauthorizedAccessException("You are not an administrative user.");
+            }
         }
 
-        public void CreateKey()
+        private bool CanDoStuff
         {
-            throw new NotImplementedException();
+            get
+            {
+                return AccountGroupPermission == PermissionLevel.Admin || AccountGroupPermission == PermissionLevel.SuperAdmin;
+            }
+        }
+
+        public void CreateKey(string description)
+        {
+            if (CanDoStuff)
+            {
+                Context.Add(new ApiKey
+                {
+                    CreatedBy = Me,
+                    CreatedById = Me.Id,
+                    Description = "",
+                    CreatedTime = DateTime.Now,
+                    AccountGroup = AccountGroup,
+                    AccountGroupId = AccountGroup.Id,
+                    IsActive = true,
+                    Key = Guid.NewGuid(),
+                    ValidUpTo = DateTime.Now.AddDays(DefaultApiKeyValidDays)
+                });
+                Context.SaveChanges();
+            }
+            else
+            {
+                throw new UnauthorizedAccessException("You currently do not have any permissions to create a key. Please ask your team leader or manager if you'd like a key.");
+            }
         }
 
         public IEnumerable<ApiKey> GetKeys
         {
             get
             {
-                throw new NotImplementedException();
+                return Context.List<ApiKey>().Where(x => x.AccountGroupId == AccountGroup.Id);
             }
         }
 
@@ -34,7 +66,10 @@ namespace BountyBoard.Core.Management
         /// <param name="keyId"></param>
         public void RegenerateKey(int keyId)
         {
-            throw new NotImplementedException("");
+            var apiKey = GetKeys.Single(x => x.Id == keyId); 
+            apiKey.Key = Guid.NewGuid();
+            Context.SaveChanges();
+
         }
     }
 }

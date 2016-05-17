@@ -16,9 +16,13 @@ namespace BountyBoard.Core
         /// <returns></returns>
         public static int TryConvert(this string input, int fallback = 0)
         {
-            int result = fallback;
-            int.TryParse(input, out result);
-            return result;
+            int result = 0;
+            if (int.TryParse(input, out result))
+            {
+                return result;
+            };
+
+            return fallback;
         }
     }
 }
