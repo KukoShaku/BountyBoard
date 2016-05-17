@@ -9,7 +9,8 @@ namespace BountyBoard.Core.Management
 {
     public class AchievementManagement: CrudLink<Achievement>
     {
-        public AchievementManagement(IDatabaseContext context) : base(context)
+        public AchievementManagement(IDatabaseContext context) 
+            : base(context)
         {
 
         }

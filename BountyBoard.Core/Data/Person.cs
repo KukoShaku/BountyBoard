@@ -11,9 +11,14 @@ namespace BountyBoard.Core.Data
         internal Person() { }
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Description { get; set; }
         public DateTime? DisabledDate { get; set; }
         public DateTime CreatedDate { get; set; }
+
+        /// <summary>
+        /// Details is stored however 
+        /// it's essentially just a massive json string about the user
+        /// </summary>
+        public string DetailsJson { get; set; }
 
         public bool AccountValidated { get; set; }
 
@@ -38,5 +43,10 @@ namespace BountyBoard.Core.Data
         /// </summary>
         public virtual ICollection<ApiKey> CreatedKeys { get; set; }
 
+        /// <summary>
+        /// this is a person's wallet, it stores how much "money"
+        /// the person currently has.
+        /// </summary>
+        public virtual ICollection<PersonWallet> Wallets { get; set; }
     }
 }

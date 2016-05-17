@@ -15,6 +15,6 @@ namespace BountyBoard.Core.Data
         
         public virtual ICollection<AccountGroupPeople> AccountGroupPeople { get; set; }
         public virtual ICollection<ApiKey> ApiKeys { get; set; }
-
+        public virtual ICollection<PersonWallet> Wallets { get; set; }
     }
 }

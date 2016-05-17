@@ -44,6 +44,7 @@
     <Compile Include="AccountBasedManagement.cs" />
     <Compile Include="Data\ApiKey.cs" />
     <Compile Include="Data\PermissionLevel.cs" />
+    <Compile Include="Data\PersonWallet.cs" />
     <Compile Include="Data\ReceivedEvent.cs" />
     <Compile Include="Management\ApiKeyManagement.cs" />
     <Compile Include="Management\BackgroundManager.cs" />
