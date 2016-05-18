@@ -55,6 +55,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Management\AccountManagementTests.cs" />
+    <Compile Include="Management\AchievementManagementTests.cs" />
     <Compile Include="Management\ApiKeyManagementTests.cs" />
     <Compile Include="Management\BasicAccountManagementTests.cs" />
     <Compile Include="Extensions\AccountStuffExtensions.cs" />

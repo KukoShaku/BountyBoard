@@ -278,5 +278,6 @@ namespace BountyBoard.Core.Test
             fakeContext.Verify(x => x.SaveChanges(), Times.Once);
             Assert.IsTrue(subjectInvitation.ExpirationDate > DateTime.Now);
         }
+
     }
 }
