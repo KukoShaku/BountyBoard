@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using BountyBoard.Core.Management;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,8 @@ namespace BountyBoard.Core.Test.Management
         [TestMethod, TestCategory("Achievement")]
         public void GiveAchievement_BadPersonDetails_Fails()
         {
+            var fakeContext = new Mock<IDatabaseContext>();
+            AchievementManagement mng = new AchievementManagement(fakeContext.Object);
             throw new NotImplementedException();
         }
 
@@ -27,6 +31,7 @@ namespace BountyBoard.Core.Test.Management
         {
             throw new NotImplementedException();
         }
+
         [TestMethod, TestCategory("Achievement")]
         public void GiveAchievement_InactiveAchievement_Fails()
         {
@@ -58,5 +63,6 @@ namespace BountyBoard.Core.Test.Management
             throw new NotImplementedException();
         }
         
+
     }
 }

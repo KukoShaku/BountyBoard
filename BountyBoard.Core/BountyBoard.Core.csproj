@@ -80,6 +80,7 @@
     <Compile Include="UserRestrictedDatabaseLink.cs" />
     <Compile Include="Metrics\IMetricParameters.cs" />
     <Compile Include="Metrics\MetricDetail.cs" />
+    <Compile Include="ViewModels\AchievementAllocation.cs" />
     <Compile Include="ViewModels\NewAccountGroup.cs" />
     <Compile Include="ViewModels\PersonInvitation.cs" />
   </ItemGroup>

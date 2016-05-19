@@ -15,5 +15,6 @@ namespace BountyBoard.Core.Data
         public int AchievementId { get; set; }
         public Achievement Achievement { get; set; }
 
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BountyBoard.Core.Data;
+using BountyBoard.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,11 @@ namespace BountyBoard.Core.Management
         {
 
         }
+
+        public void GiveAchievement(AchievementAllocation allocation)
+        {
+            throw new NotImplementedException();
+        }
+        
     }
 }
