@@ -14,5 +14,9 @@ namespace BountyBoard.Core.Data
         public byte[] Image { get; set; }
         public bool IsApproved { get; set; }
         public double Value { get; set; }
+        public Guid Key { get; set; }
+
+        public Season Season { get; set; }
+        public int? SeasonId { get; set; }
     }
 }

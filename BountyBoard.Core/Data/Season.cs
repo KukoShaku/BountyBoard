@@ -14,5 +14,11 @@ namespace BountyBoard.Core.Data
         public bool IsActive { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+
+        /// <summary>
+        /// All of the achievements associated with this season
+        /// </summary>
+        public virtual ICollection<Achievement> Achievements { get; set; }
+
     }
 }

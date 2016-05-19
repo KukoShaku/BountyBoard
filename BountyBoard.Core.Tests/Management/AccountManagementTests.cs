@@ -199,6 +199,38 @@ namespace BountyBoard.Core.Test
             fakeContext.Verify(x => x.Delete<AccountGroupPeople>(5), Times.Once);
         }
 
+        [TestMethod, TestCategory("Usability")]
+        public void DisableAccount_IAmSheriff_ThrowsException()
+        {
+            Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
+            var me = new Person() { };
+            var management = SimpleResolve(fakeContext, me);
+            //this is to satisfy the idea that you have to demote yourself efore you can give up
+            throw new NotImplementedException();
+        }
+
+        [TestMethod, TestCategory("Usability")]
+        public void DisableAccount_IAmTheOnlySheriff_OK()
+        {
+            //when all users have been disabled, you can chose to disable this entire service
+            throw new NotImplementedException();
+        }
+
+        private AccountManagement SimpleResolve(Mock<IDatabaseContext> fakeContext, Person person, params int[] accountGroupIds)
+        {
+            var accountGroups = accountGroupIds.Select(x => new AccountGroup
+            {
+                Id = x,
+            });
+
+            person.AccountGroupPeople = accountGroups.Select(x => new AccountGroupPeople() { AccountGroup = x, AccountGroupId = x.Id }).ToList();
+
+            fakeContext.Setup(x => x.List<AccountGroupPeople>()).Returns(person.AccountGroupPeople.AsQueryable());
+            fakeContext.Setup(x => x.List<AccountGroup>()).Returns(accountGroups.AsQueryable());
+            fakeContext.Setup(x => x.List<Person>()).Returns(new[] { person }.AsQueryable());
+            return new AccountManagement(fakeContext.Object, person.Id);
+        }
+
         private AccountManagement SimpleResolve(Mock<IDatabaseContext> fakeContext, int v, params int[] accountGroupIds)
         {
             var me = new Person
@@ -206,17 +238,8 @@ namespace BountyBoard.Core.Test
                 Id = v,
             };
 
-            var accountGroups = accountGroupIds.Select(x => new AccountGroup
-            {
-                Id = x,
-            });
-
-            me.AccountGroupPeople = accountGroups.Select(x => new AccountGroupPeople() { AccountGroup = x, AccountGroupId = x.Id }).ToList();
-
-            fakeContext.Setup(x => x.List<AccountGroupPeople>()).Returns(me.AccountGroupPeople.AsQueryable());
-            fakeContext.Setup(x => x.List<AccountGroup>()).Returns(accountGroups.AsQueryable());
-            fakeContext.Setup(x => x.List<Person>()).Returns(new[] { me }.AsQueryable());
-            return new AccountManagement(fakeContext.Object, v);
+            return SimpleResolve(fakeContext, me, accountGroupIds);
+            
         }
 
         [TestMethod, TestCategory("Admin")]

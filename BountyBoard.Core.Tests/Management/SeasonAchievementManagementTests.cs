@@ -117,15 +117,5 @@ namespace BountyBoard.Core.Tests
             fakeContext.Verify(x => x.Delete<SeasonAchievement>(1), Times.Once);
             
         }
-
-        [TestMethod]
-        public void StartSeason_CorrectDetails_DoesEverything()
-        {
-            Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
-            //Setup all the players
-            //Background Process linke!!?
-            throw new NotImplementedException();
-        }
-
     }
 }
