@@ -41,37 +41,39 @@ namespace BountyBoard.Core.Management
                 throw new BusinessLogicException("Achievement must be approved");
             }
 
-            var seasonAchievement = Context.List<SeasonAchievement>()
-                .SingleOrDefault(x => x.SeasonId == season.Id && x.AchievementId == achievement.Id);
-            if (seasonAchievement != null)
-            {
-                throw new BusinessLogicException("Achievement already exists in this season");
-            }
+            throw new NotImplementedException();
+            //var seasonAchievement = Context.List<SeasonAchievement>()
+            //    .SingleOrDefault(x => x.SeasonId == season.Id && x.AchievementId == achievement.Id);
+            //if (seasonAchievement != null)
+            //{
+            //    throw new BusinessLogicException("Achievement already exists in this season");
+            //}
 
-            var result = new SeasonAchievement
-            {
-                AchievementId = achievement.Id,
-                Achievement = achievement,
-                Season = season,
-                SeasonId = season.Id
-            };
+            //var result = new SeasonAchievement
+            //{
+            //    AchievementId = achievement.Id,
+            //    Achievement = achievement,
+            //    Season = season,
+            //    SeasonId = season.Id
+            //};
 
-            Context.Add(result);
+            //Context.Add(result);
             Context.SaveChanges();
         }
 
         public void Remove(int id)
         {
-            var seasonAchievement = Context.List<SeasonAchievement>().Single(x => x.Id == id);
-            if (seasonAchievement.Season.IsActive)
-            {
-                throw new BusinessLogicException("Season is currently active, you can't remove an active season.");
-            }
-            else
-            {
-                Context.Delete<SeasonAchievement>(id);
-                Context.SaveChanges();
-            }
+            throw new NotImplementedException();
+            //var seasonAchievement = Context.List<SeasonAchievement>().Single(x => x.Id == id);
+            //if (seasonAchievement.Season.IsActive)
+            //{
+            //    throw new BusinessLogicException("Season is currently active, you can't remove an active season.");
+            //}
+            //else
+            //{
+            //    Context.Delete<SeasonAchievement>(id);
+            //    Context.SaveChanges();
+            //}
         }
     }
 }

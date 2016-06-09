@@ -163,7 +163,6 @@ namespace BountyBoard.Core.Test.Management
                 }
             };
 
-
             fakeContext.Setup(x => x.List<Season>()).Returns(
                 new[]
                 {
@@ -190,6 +189,7 @@ namespace BountyBoard.Core.Test.Management
         [TestMethod, TestCategory("Achievement")]
         public void GiveAchievement_CorrectDetails_AddsToDatabase()
         {
+            //give an achievement with the right key, with season being active
             throw new NotImplementedException();
         }
 
@@ -203,6 +203,7 @@ namespace BountyBoard.Core.Test.Management
         [TestMethod, TestCategory("Achievement")]
         public void GiveAchievement_CorrectDetails_AddsToPersonWallet()
         {
+            //give an achievement adds value to a person's wallet
             throw new NotImplementedException();
         }
         

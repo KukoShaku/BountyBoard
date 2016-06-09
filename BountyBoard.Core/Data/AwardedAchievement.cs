@@ -7,8 +7,8 @@ namespace BountyBoard.Core.Data
 
         internal AwardedAchievement() { }
 
-        public SeasonAchievement SeasonAchievement { get; set; }
-        public int SeasonAchievementId { get; set; }
+        public Achievement Achievement { get; set; }
+        public int AchievementId { get; set; }
         public DateTime AwardDate { get; set; }
     }
 }
