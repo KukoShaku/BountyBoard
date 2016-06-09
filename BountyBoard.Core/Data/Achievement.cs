@@ -18,5 +18,8 @@ namespace BountyBoard.Core.Data
 
         public Season Season { get; set; }
         public int? SeasonId { get; set; }
+
+        //helpers
+        public AccountGroup AccountGroup { get { return Season?.AccountGroup; } }
     }
 }

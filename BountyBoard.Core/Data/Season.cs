@@ -20,5 +20,9 @@ namespace BountyBoard.Core.Data
         /// </summary>
         public virtual ICollection<Achievement> Achievements { get; set; }
 
+        public AccountGroup AccountGroup { get; set; }
+        public int AccountGroupId { get; set; }
+
+
     }
 }

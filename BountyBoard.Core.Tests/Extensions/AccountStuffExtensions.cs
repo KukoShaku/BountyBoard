@@ -9,6 +9,13 @@ namespace BountyBoard.Core.Test.Extensions
 {
     internal static class AccountStuffExtensions
     {
+        /// <summary>
+        /// creates a normal grouped user. override if you want to use it
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="group"></param>
+        /// <param name="joinId"></param>
+        /// <returns></returns>
         internal static AccountGroupPeople AddToGroup(this Person p, AccountGroup group, int joinId)
         {
             if (p.AccountGroupPeople == null)

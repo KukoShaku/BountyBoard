@@ -210,10 +210,28 @@ namespace BountyBoard.Core.Test
         }
 
         [TestMethod, TestCategory("Usability")]
-        public void DisableAccount_IAmTheOnlySheriff_OK()
+        public void DisableAccount_IAmTheOnlyUserAndSheriff_OK()
         {
+            var accountGroup = new AccountGroup
+            {
+                Id = 2,
+            };
+
+            var me = new Person
+            {
+                Id = 1,
+            };
+
+            var join = me.AddToGroup(accountGroup, 22);
+            join.PermissionLevel = PermissionLevel.SuperAdmin;
             //when all users have been disabled, you can chose to disable this entire service
-            throw new NotImplementedException();
+            Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
+
+            fakeContext.Setup(x => x.List<AccountGroupPeople>()).Returns(me.AccountGroupPeople.AsQueryable());
+            fakeContext.Setup(x => x.List<Person>()).Returns(new[] { me }.AsQueryable());
+            var manager = new AccountManagement(fakeContext.Object, me.Id);
+
+            manager.DisableMyAccount(2);
         }
 
         private AccountManagement SimpleResolve(Mock<IDatabaseContext> fakeContext, Person person, params int[] accountGroupIds)

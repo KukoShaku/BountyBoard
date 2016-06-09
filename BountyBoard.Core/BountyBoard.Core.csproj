@@ -46,7 +46,9 @@
     <Compile Include="Data\PermissionLevel.cs" />
     <Compile Include="Data\PersonWallet.cs" />
     <Compile Include="Data\ReceivedEvent.cs" />
+    <Compile Include="Data\SeasonAchievement.cs" />
     <Compile Include="Management\ApiKeyManagement.cs" />
+    <Compile Include="Management\AutomatedController.cs" />
     <Compile Include="Management\BackgroundManager.cs" />
     <Compile Include="Management\ReceivedEventsManager.cs" />
     <Compile Include="Metrics\AchievementMetricDetails.cs" />
@@ -70,7 +72,6 @@
     <Compile Include="Data\PersonRole.cs" />
     <Compile Include="Data\Role.cs" />
     <Compile Include="Data\Season.cs" />
-    <Compile Include="Data\SeasonAchievement.cs" />
     <Compile Include="IDatabaseContext.cs" />
     <Compile Include="Management\SeasonAchievementManagement.cs" />
     <Compile Include="MetricsHub.cs" />
