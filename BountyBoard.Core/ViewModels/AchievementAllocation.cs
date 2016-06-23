@@ -22,6 +22,10 @@ namespace BountyBoard.Core.ViewModels
         /// </summary>
         public bool IsManual { get; set; }
         /// <summary>
+        /// The season this request is trying to target. If this is left empty, it will apply to the currently active season
+        /// </summary>
+        public Guid? SeasonKey { get; set; }
+        /// <summary>
         /// this is the ID of the person in the organisation.
         /// It has to be unique to the account-person join.
         /// </summary>

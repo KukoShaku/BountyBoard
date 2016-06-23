@@ -18,5 +18,13 @@ namespace BountyBoard.Core.Data
         public virtual ICollection<ApiKey> ApiKeys { get; set; }
         public virtual ICollection<PersonWallet> Wallets { get; set; }
         public virtual ICollection<Achievement> Achievements { get; set; }
+
+        public Season CurrentActiveSeason
+        {
+            get
+            {
+                return Seasons.SingleOrDefault(x => x.IsActive && x.IsBetween(DateTime.Now));
+            }
+        }
     }
 }

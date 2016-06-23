@@ -46,7 +46,7 @@ namespace BountyBoard.Core.Test.Management
             mng.GiveAchievement(allocation);
         }
 
-        [TestMethod, TestCategory("Achievement"), ExpectedException(typeof(BusinessLogicException))]
+        [TestMethod, TestCategory("Achievement"), ExpectedException(typeof(UnauthorizedAccessException))]
         public void GiveAchievement_BadAccountGroupDetails_Fails()
         {
             //give an achievement to the incorrect account group
@@ -55,12 +55,12 @@ namespace BountyBoard.Core.Test.Management
             {
                 Id = 10000,
             };
-            Guid key = Guid.NewGuid();
+            Guid achievementKey = Guid.NewGuid();
             var achievements = new[]
             {
                 new Achievement
                 {
-                    Key = key,
+                    Key = achievementKey,
                     Season = season,
                     SeasonId = season.Id
                 }
@@ -78,11 +78,55 @@ namespace BountyBoard.Core.Test.Management
 
             season.AccountGroup = accountGroup;
 
+            Season currentSeason = new Season
+            {
+                IsActive = true,
+                StartDate = DateTime.Now.AddDays(-1),
+                EndDate = DateTime.Now.AddDays(1),
+                Achievements = new[]
+                {
+                    new Achievement
+                    {
+                        Key = achievementKey,
+                    }
+                }
+            };
+            string customKey = person.Id.ToString();
+            Guid apiKey = Guid.NewGuid();
+            fakeContext.Setup(x => x.List<ApiKey>()).Returns(new[] 
+            {
+                new ApiKey
+                {
+                    Key = apiKey,
+                    IsActive = true,
+                    AccountGroup = new AccountGroup
+                    {
+                        Seasons = new [] { currentSeason },
+                        Achievements = new List<Achievement>()
+                        {
+                            new Achievement
+                            {
+                                Key = achievementKey,
+                            }
+                        },
+                        AccountGroupPeople = new []
+                        {
+                            new AccountGroupPeople
+                            {
+                                CustomKey = customKey,
+                                Person = person
+                            }
+                        }
+                    }
+                }
+            }.AsQueryable());
+
             AchievementManagement mng = new AchievementManagement(fakeContext.Object);
             var allocation = new AchievementAllocation();
 
-            allocation.CustomPersonKey = person.Id.ToString();
-            allocation.AchievementKey = key;
+            allocation.CustomPersonKey = "no such key";
+            allocation.AchievementKey = achievementKey;
+            allocation.ApiKey = apiKey;
 
             mng.GiveAchievement(allocation);
         }

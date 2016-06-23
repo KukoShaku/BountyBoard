@@ -37,8 +37,8 @@ namespace BountyBoard.Core.Management
             IEnumerable<Achievement> achievements = key.AccountGroup.Achievements
                 .Where(x => x.Key == allocation.AchievementKey);
             //this gets the only active achievement that can be applied
-            Achievement relevantAchievement = achievements.SingleOrDefault(x => x.Season.IsActive
-                && x.Season.IsBetween(allocation.CreatedDate));
+            Season activeSeason = key.AccountGroup.CurrentActiveSeason;
+            Achievement relevantAchievement = activeSeason.Achievements.SingleOrDefault(x => x.Key == allocation.AchievementKey);
             if (relevantAchievement == null)
             {
                 throw new BusinessLogicException("There is no relevant achievement with the created date specified");
@@ -50,8 +50,22 @@ namespace BountyBoard.Core.Management
                 throw new UnauthorizedAccessException("Person does not exist, have you setup their customKey correctly?");
             }
 
+            GiveAchievement(targetPersonJoin, relevantAchievement, allocation.CreatedDate);
+        }
 
-            throw new NotImplementedException();
+        private void GiveAchievement(AccountGroupPeople accountGroupPerson, Achievement achievement, DateTime awardedOn)
+        {
+            PersonWallet wallet = accountGroupPerson.Person.Wallets.Single(x => x.AccountGroupId == accountGroupPerson.AccountGroupId);
+            wallet.Value += achievement.Value;
+            AwardedAchievement award = new AwardedAchievement()
+            {
+                Achievement = achievement,
+                AchievementId = achievement.Id,
+                AwardDate = awardedOn,
+            };
+
+            Context.Add(award);
+            Context.SaveChanges();
         }
 
         private void EnsureAchievementIsValid(Person person, Guid key)
