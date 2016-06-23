@@ -18,6 +18,7 @@ namespace BountyBoard.Core.Test.Management
         [TestMethod, TestCategory("Achievement"), ExpectedException(typeof(BusinessLogicException))]
         public void GiveAchievement_BadPersonDetails_Fails()
         {
+            //give an achievement with incorrect person details.
             var fakeContext = new Mock<IDatabaseContext>();
             Guid key = Guid.NewGuid();
             var achievements = new[] 
@@ -40,7 +41,7 @@ namespace BountyBoard.Core.Test.Management
             allocation.AchievementKey = key;
             allocation.IsManual = true;
             //this is the wrong person
-            allocation.SourcePerson = new Person();
+            allocation.CustomPersonKey = "1";
 
             mng.GiveAchievement(allocation);
         }
@@ -48,9 +49,11 @@ namespace BountyBoard.Core.Test.Management
         [TestMethod, TestCategory("Achievement"), ExpectedException(typeof(BusinessLogicException))]
         public void GiveAchievement_BadAccountGroupDetails_Fails()
         {
+            //give an achievement to the incorrect account group
             var fakeContext = new Mock<IDatabaseContext>();
-            var season = new Season {
-                
+            var season = new Season
+            {
+                Id = 10000,
             };
             Guid key = Guid.NewGuid();
             var achievements = new[]
@@ -78,7 +81,7 @@ namespace BountyBoard.Core.Test.Management
             AchievementManagement mng = new AchievementManagement(fakeContext.Object);
             var allocation = new AchievementAllocation();
 
-            allocation.SourcePerson = person;
+            allocation.CustomPersonKey = person.Id.ToString();
             allocation.AchievementKey = key;
 
             mng.GiveAchievement(allocation);
@@ -100,6 +103,7 @@ namespace BountyBoard.Core.Test.Management
         [TestMethod, TestCategory("Achievement"), ExpectedException(typeof(BusinessLogicException))]
         public void GiveAchievement_InactiveAchievement_Fails()
         {
+            //give an achievement that is currently inactive
             var key = Guid.NewGuid();
             var fakeContext = new Mock<IDatabaseContext>();
             var mng = new AchievementManagement(fakeContext.Object);

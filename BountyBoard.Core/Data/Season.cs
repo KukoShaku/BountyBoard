@@ -23,6 +23,23 @@ namespace BountyBoard.Core.Data
         public AccountGroup AccountGroup { get; set; }
         public int AccountGroupId { get; set; }
 
+        /// <summary>
+        /// Start date is not inclusive.
+        /// End date is inclusive
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns>true if time is within start and end date. If either are null, returns false</returns>
+        internal bool IsBetween(DateTime time)
+        {
+            if (StartDate == null || EndDate == null)
+            {
+                return false;
+            }
+            else
+            {
+                return StartDate < time && time <= EndDate;
+            }
+        }
 
     }
 }

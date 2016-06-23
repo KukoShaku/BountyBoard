@@ -13,8 +13,10 @@ namespace BountyBoard.Core.Data
         public DateTime CreatedDate { get; set; }
         public DateTime? EndDate { get; set; }
         
+        public virtual ICollection<Season> Seasons { get; set; }
         public virtual ICollection<AccountGroupPeople> AccountGroupPeople { get; set; }
         public virtual ICollection<ApiKey> ApiKeys { get; set; }
         public virtual ICollection<PersonWallet> Wallets { get; set; }
+        public virtual ICollection<Achievement> Achievements { get; set; }
     }
 }

@@ -17,5 +17,10 @@ namespace BountyBoard.Core.Data
         public int AccountGroupId { get; set; }
 
         public PermissionLevel PermissionLevel { get; set; }
+
+        /// <summary>
+        /// Used for uniquely identifying someone in the account group.
+        /// </summary>
+        public string CustomKey { get; set; }
     }
 }

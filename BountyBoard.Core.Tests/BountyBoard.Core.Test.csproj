@@ -61,6 +61,7 @@
     <Compile Include="Management\BasicAccountManagementTests.cs" />
     <Compile Include="Extensions\AccountStuffExtensions.cs" />
     <Compile Include="Management\ReceivedEventsManagerTests.cs" />
+    <Compile Include="Management\SeasonManagementTests.cs" />
     <Compile Include="MetricsHubTests.cs" />
     <Compile Include="MockObjects\FakeRestrictiveAccess.cs" />
     <Compile Include="MockObjects\MetricParameters.cs" />
