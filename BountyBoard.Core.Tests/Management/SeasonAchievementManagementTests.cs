@@ -18,10 +18,10 @@ namespace BountyBoard.Core.Tests
         {
             if (isValidUser)
             {
-                context.Setup(x => x.List<Person>()).Returns(new[] { new Person { } }.AsQueryable());
+                context.Setup(x => x.List<Person>()).Returns(new[] { new Person { Id = 1 } }.AsQueryable());
             }
             AchievementManagement a = new AchievementManagement(context.Object);
-            SeasonManagement s = new SeasonManagement(context.Object);
+            SeasonManagement s = new SeasonManagement(context.Object, 1);
             return new SeasonAchievementManagement(context.Object, 0, a, s);
         }
 

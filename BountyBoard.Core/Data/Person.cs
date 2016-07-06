@@ -48,5 +48,11 @@ namespace BountyBoard.Core.Data
         /// the person currently has.
         /// </summary>
         public virtual ICollection<PersonWallet> Wallets { get; set; }
+
+        public PermissionLevel GetPermissionLevel(int accountGroupId)
+        {
+            var accountGroupJoin = AccountGroupPeople.SingleOrDefault(x => x.AccountGroupId == accountGroupId);
+            return accountGroupJoin.PermissionLevel;
+        }
     }
 }

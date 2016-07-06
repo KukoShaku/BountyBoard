@@ -41,5 +41,17 @@ namespace BountyBoard.Core.Data
             }
         }
 
+        public bool CanActivate
+        {
+            get
+            {
+
+                return StartDate.HasValue
+                    && EndDate.HasValue
+                    && StartDate < EndDate
+                    && !IsActive;
+            }
+        }
+
     }
 }

@@ -14,8 +14,8 @@ namespace BountyBoard.Core.Management
         public const int DefaultEmailExpirationDays = 30;
         private int EmailDays = ConfigurationManager.AppSettings["EmailExpirationDays"].TryConvert(DefaultEmailExpirationDays);
 
-        public AccountManagement(IDatabaseContext context, int personId)  
-            : base (context, personId)
+        public AccountManagement(IDatabaseContext context, int personId)
+            : base(context, personId)
         {
 
         }
@@ -89,7 +89,7 @@ namespace BountyBoard.Core.Management
             }
 
             Context.SaveChanges();
-            
+
         }
 
         /// <summary>
@@ -99,13 +99,33 @@ namespace BountyBoard.Core.Management
         /// <param name="accountGroupId"></param>
         public void DisableAccount(int personId, int accountGroupId)
         {
-            var targetPerson = GetMyColleagues(accountGroupId, true).Single(x => x.Id == personId);
-            var join = targetPerson.AccountGroupPeople.SingleOrDefault(x => x.AccountGroupId == accountGroupId);
-            if (join != null)
+            var permission = MyPermissions.Single(x => x.Key.Id == accountGroupId).Value;
+            if (permission == PermissionLevel.Admin || permission == PermissionLevel.SuperAdmin)
             {
-                Context.Delete<AccountGroupPeople>(join.Id);
-                Context.SaveChanges();
+                var targetPerson = GetMyColleagues(accountGroupId, true).Single(x => x.Id == personId);
+                //there should be a simpler way to do this but i can't be effed
+                var targetsPermission = targetPerson.GetPermissionLevel(accountGroupId);
+                if (targetsPermission == PermissionLevel.SuperAdmin)
+                {
+                    throw new UnauthorizedAccessException("You can't remove a superadmin");
+                }
+                else if (targetsPermission == PermissionLevel.Admin && Me.GetPermissionLevel(accountGroupId) == PermissionLevel.Admin)
+                {
+                    throw new UnauthorizedAccessException("You can't remove another admin user, only a superadmin can do that");
+                }
+
+                var join = targetPerson.AccountGroupPeople.SingleOrDefault(x => x.AccountGroupId == accountGroupId);
+                if (join != null)
+                {
+                    Context.Delete<AccountGroupPeople>(join.Id);
+                    Context.SaveChanges();
+                }
             }
+            else
+            {
+                throw new UnauthorizedAccessException("You lack permission to disable accounts");
+            }
+            
 
         }
         /// <summary>
@@ -114,7 +134,7 @@ namespace BountyBoard.Core.Management
         /// <param name="accountGroupId"></param>
         public void DisableMyAccount(int accountGroupId)
         {
-            DisableAccount(this.Me.Id, accountGroupId);
+            DisableAccount(Me.Id, accountGroupId);
         }
         
     }

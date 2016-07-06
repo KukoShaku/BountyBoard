@@ -26,5 +26,10 @@ namespace BountyBoard.Core.Data
                 return Seasons.SingleOrDefault(x => x.IsActive && x.IsBetween(DateTime.Now));
             }
         }
+
+        internal bool HasPerson(Person me)
+        {
+            return AccountGroupPeople.Any(x => x.PersonId == me.Id);
+        }
     }
 }

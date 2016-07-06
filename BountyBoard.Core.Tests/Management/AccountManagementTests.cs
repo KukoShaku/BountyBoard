@@ -199,14 +199,23 @@ namespace BountyBoard.Core.Test
             fakeContext.Verify(x => x.Delete<AccountGroupPeople>(5), Times.Once);
         }
 
-        [TestMethod, TestCategory("Usability")]
+        [TestMethod, TestCategory("Usability"), ExpectedException(typeof(UnauthorizedAccessException))]
         public void DisableAccount_IAmSheriff_ThrowsException()
         {
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
-            var me = new Person() { };
-            var management = SimpleResolve(fakeContext, me);
+            var group = new AccountGroup
+            {
+                Id = 1
+            };
+            var me = new Person()
+            {
+            };
+            var join = me.AddToGroup(group, 10);
+            join.PermissionLevel = PermissionLevel.SuperAdmin;
+            fakeContext.Setup(x => x.List<Person>()).Returns(new[] { me }.AsQueryable());
+            var management = new AccountManagement(fakeContext.Object, me.Id);
             //this is to satisfy the idea that you have to demote yourself efore you can give up
-            throw new NotImplementedException();
+            management.DisableMyAccount(1);
         }
 
         [TestMethod, TestCategory("Usability")]
