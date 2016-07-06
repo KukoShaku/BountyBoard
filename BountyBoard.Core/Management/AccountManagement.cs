@@ -117,7 +117,7 @@ namespace BountyBoard.Core.Management
                 var join = targetPerson.AccountGroupPeople.SingleOrDefault(x => x.AccountGroupId == accountGroupId);
                 if (join != null)
                 {
-                    Context.Delete<AccountGroupPeople>(join.Id);
+                    Context.Delete<AccountGroupPerson>(join.Id);
                     Context.SaveChanges();
                 }
             }

@@ -111,7 +111,7 @@ namespace BountyBoard.Core.Test.Management
                         },
                         AccountGroupPeople = new []
                         {
-                            new AccountGroupPeople
+                            new AccountGroupPerson
                             {
                                 CustomKey = customKey,
                                 Person = person

@@ -56,7 +56,7 @@ namespace BountyBoard.Core.Test
 
             context.Setup(x => x.List<Person>()).Returns(people.AsQueryable());
             context.Setup(x => x.List<AccountGroup>()).Returns(new AccountGroup[] { accountGroup1, accountGroup2, disabledAccountGroup, accountGroup4 }.AsQueryable());
-            context.Setup(x => x.List<AccountGroupPeople>()).Returns(new AccountGroupPeople[] { g1, g2, g3, g4, g5, g6, g7, g8, g9, g10 }.AsQueryable());
+            context.Setup(x => x.List<AccountGroupPerson>()).Returns(new AccountGroupPerson[] { g1, g2, g3, g4, g5, g6, g7, g8, g9, g10 }.AsQueryable());
             return new AccountManagement(context.Object, currentPerson);
         }
 
@@ -196,7 +196,7 @@ namespace BountyBoard.Core.Test
             management.DisableAccount(3, 2);
 
             fakeContext.Setup(x => x.SaveChanges());
-            fakeContext.Verify(x => x.Delete<AccountGroupPeople>(5), Times.Once);
+            fakeContext.Verify(x => x.Delete<AccountGroupPerson>(5), Times.Once);
         }
 
         [TestMethod, TestCategory("Usability"), ExpectedException(typeof(UnauthorizedAccessException))]
@@ -236,7 +236,7 @@ namespace BountyBoard.Core.Test
             //when all users have been disabled, you can chose to disable this entire service
             Mock<IDatabaseContext> fakeContext = new Mock<IDatabaseContext>();
 
-            fakeContext.Setup(x => x.List<AccountGroupPeople>()).Returns(me.AccountGroupPeople.AsQueryable());
+            fakeContext.Setup(x => x.List<AccountGroupPerson>()).Returns(me.AccountGroupPeople.AsQueryable());
             fakeContext.Setup(x => x.List<Person>()).Returns(new[] { me }.AsQueryable());
             var manager = new AccountManagement(fakeContext.Object, me.Id);
 
@@ -250,9 +250,9 @@ namespace BountyBoard.Core.Test
                 Id = x,
             });
 
-            person.AccountGroupPeople = accountGroups.Select(x => new AccountGroupPeople() { AccountGroup = x, AccountGroupId = x.Id }).ToList();
+            person.AccountGroupPeople = accountGroups.Select(x => new AccountGroupPerson() { AccountGroup = x, AccountGroupId = x.Id }).ToList();
 
-            fakeContext.Setup(x => x.List<AccountGroupPeople>()).Returns(person.AccountGroupPeople.AsQueryable());
+            fakeContext.Setup(x => x.List<AccountGroupPerson>()).Returns(person.AccountGroupPeople.AsQueryable());
             fakeContext.Setup(x => x.List<AccountGroup>()).Returns(accountGroups.AsQueryable());
             fakeContext.Setup(x => x.List<Person>()).Returns(new[] { person }.AsQueryable());
             return new AccountManagement(fakeContext.Object, person.Id);

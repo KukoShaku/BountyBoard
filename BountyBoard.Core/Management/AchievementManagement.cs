@@ -44,7 +44,7 @@ namespace BountyBoard.Core.Management
                 throw new BusinessLogicException("There is no relevant achievement with the created date specified");
             }
 
-            AccountGroupPeople targetPersonJoin = key.AccountGroup.AccountGroupPeople.SingleOrDefault(x => x.CustomKey == allocation.CustomPersonKey);
+            AccountGroupPerson targetPersonJoin = key.AccountGroup.AccountGroupPeople.SingleOrDefault(x => x.CustomKey == allocation.CustomPersonKey);
             if (targetPersonJoin == null)
             {
                 throw new UnauthorizedAccessException("Person does not exist, have you setup their customKey correctly?");
@@ -53,7 +53,7 @@ namespace BountyBoard.Core.Management
             GiveAchievement(targetPersonJoin, relevantAchievement, allocation.CreatedDate);
         }
 
-        private void GiveAchievement(AccountGroupPeople accountGroupPerson, Achievement achievement, DateTime awardedOn)
+        private void GiveAchievement(AccountGroupPerson accountGroupPerson, Achievement achievement, DateTime awardedOn)
         {
             PersonWallet wallet = accountGroupPerson.Person.Wallets.Single(x => x.AccountGroupId == accountGroupPerson.AccountGroupId);
             wallet.Value += achievement.Value;

@@ -25,7 +25,7 @@ namespace BountyBoard.Core.Data
         /// <summary>
         /// For Popular people
         /// </summary>
-        public virtual ICollection<AccountGroupPeople> AccountGroupPeople { get; set; }
+        public virtual ICollection<AccountGroupPerson> AccountGroupPeople { get; set; }
 
         /// <summary>
         /// Collection of Awarded achievements based on season

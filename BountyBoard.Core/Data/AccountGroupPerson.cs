@@ -9,7 +9,7 @@ namespace BountyBoard.Core.Data
     /// <summary>
     /// Joins people to accounts. This is to address people having multiple groups
     /// </summary>
-    public class AccountGroupPeople : DatabaseObject
+    public class AccountGroupPerson : DatabaseObject
     {
         public Person Person { get; set; }
         public int PersonId { get; set; }

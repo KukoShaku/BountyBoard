@@ -14,7 +14,7 @@ namespace BountyBoard.Core.Data
         public DateTime? EndDate { get; set; }
         
         public virtual ICollection<Season> Seasons { get; set; }
-        public virtual ICollection<AccountGroupPeople> AccountGroupPeople { get; set; }
+        public virtual ICollection<AccountGroupPerson> AccountGroupPeople { get; set; }
         public virtual ICollection<ApiKey> ApiKeys { get; set; }
         public virtual ICollection<PersonWallet> Wallets { get; set; }
         public virtual ICollection<Achievement> Achievements { get; set; }

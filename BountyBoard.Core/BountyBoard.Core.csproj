@@ -62,7 +62,7 @@
     <Compile Include="DatabaseLink.cs" />
     <Compile Include="DataExtensions\PersonExtensions.cs" />
     <Compile Include="Data\AccountGroup.cs" />
-    <Compile Include="Data\AccountGroupPeople.cs" />
+    <Compile Include="Data\AccountGroupPerson.cs" />
     <Compile Include="Data\Achievement.cs" />
     <Compile Include="Data\AwardedAchievement.cs" />
     <Compile Include="Data\DatabaseObject.cs" />

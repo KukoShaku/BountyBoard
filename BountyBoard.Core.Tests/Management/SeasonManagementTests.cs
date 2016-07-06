@@ -24,8 +24,42 @@ namespace BountyBoard.Core.Test.Management
         public void ActivateSeason_InvalidStartDate_ThrowsException()
         {
             var fakeContext = new Mock<IDatabaseContext>();
+            Person person = new Person()
+            {
+                Id = 100
+            };
 
-            throw new NotImplementedException();
+            AccountGroupPerson personJoin = new AccountGroupPerson()
+            {
+                Person = person,
+                PersonId = person.Id,
+                PermissionLevel = PermissionLevel.Admin
+            };
+            AccountGroup accountGroup = new AccountGroup()
+            {
+                Id = 1000,
+                AccountGroupPeople = new List<AccountGroupPerson>()
+                {
+                    personJoin,
+                }
+            };
+            personJoin.AccountGroup = accountGroup;
+            personJoin.AccountGroupId = accountGroup.Id;
+            person.AccountGroupPeople = new[] { personJoin };
+            Season season = new Season
+            {
+                Id = 2,
+                IsActive = false,
+                AccountGroup = accountGroup,
+                StartDate = null,
+                EndDate = DateTime.Today,
+                AccountGroupId = accountGroup.Id,
+            };
+
+            fakeContext.Setup(x => x.List<Season>()).Returns(new[] { season }.AsQueryable());
+            fakeContext.Setup(x => x.List<Person>()).Returns(new[] { person }.AsQueryable());
+            SeasonManagement management = new SeasonManagement(fakeContext.Object, 100);
+            management.ActivateSeason(2);
         }
 
         [TestMethod, ExpectedException(typeof(BusinessLogicException)), TestCategory("Season Admin")]
@@ -36,9 +70,9 @@ namespace BountyBoard.Core.Test.Management
             {
                 Id = 1,
             };
-            var accountGroupPeople = new List<AccountGroupPeople>()
+            var accountGroupPeople = new List<AccountGroupPerson>()
             {
-                new AccountGroupPeople
+                new AccountGroupPerson
                 {
                     PermissionLevel = PermissionLevel.Admin, // this is imporant
                     PersonId = 1,

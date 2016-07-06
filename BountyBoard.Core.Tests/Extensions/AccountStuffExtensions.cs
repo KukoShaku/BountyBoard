@@ -16,18 +16,18 @@ namespace BountyBoard.Core.Test.Extensions
         /// <param name="group"></param>
         /// <param name="joinId"></param>
         /// <returns></returns>
-        internal static AccountGroupPeople AddToGroup(this Person p, AccountGroup group, int joinId)
+        internal static AccountGroupPerson AddToGroup(this Person p, AccountGroup group, int joinId)
         {
             if (p.AccountGroupPeople == null)
             {
-                p.AccountGroupPeople = new List<AccountGroupPeople>();
+                p.AccountGroupPeople = new List<AccountGroupPerson>();
             }
 
-            var join = new AccountGroupPeople { AccountGroup = group, AccountGroupId = group.Id, Person = p, PersonId = p.Id };
+            var join = new AccountGroupPerson { AccountGroup = group, AccountGroupId = group.Id, Person = p, PersonId = p.Id };
             p.AccountGroupPeople.Add(join);
             if (group.AccountGroupPeople == null)
             {
-                group.AccountGroupPeople = new List<AccountGroupPeople>();
+                group.AccountGroupPeople = new List<AccountGroupPerson>();
             }
 
             group.AccountGroupPeople.Add(join);
