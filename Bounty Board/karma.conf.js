@@ -16,12 +16,12 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             /* inject:files */
-            "C:/GitSource/BountyBoard/Bounty Board/WebFiles/scripts/lib/jquery-bundle.min.js",
-            "C:/GitSource/BountyBoard/Bounty Board/WebFiles/scripts/lib/bootstrap-bundle.min.js",
-            "C:/GitSource/BountyBoard/Bounty Board/WebFiles/scripts/lib/angular-bundle.min.js",
-            "C:/GitSource/BountyBoard/Bounty Board/WebFiles/scripts/lib/underscore-bundle.min.js",
-            "C:/GitSource/BountyBoard/Bounty Board/WebFiles/angularModules.js",
-            "C:/GitSource/BountyBoard/Bounty Board/WebFiles/scripts/app.js",
+            "C:/SourceControl/Bounty Board/WebFiles/scripts/lib/jquery-bundle.min.js",
+            "C:/SourceControl/Bounty Board/WebFiles/scripts/lib/bootstrap-bundle.min.js",
+            "C:/SourceControl/Bounty Board/WebFiles/scripts/lib/angular-bundle.min.js",
+            "C:/SourceControl/Bounty Board/WebFiles/scripts/lib/underscore-bundle.min.js",
+            "C:/SourceControl/Bounty Board/WebFiles/angularModules.js",
+            "C:/SourceControl/Bounty Board/WebFiles/scripts/app.js",
             /* endinject */
             'bower_components/angular-mocks/angular-mocks.js',
             'Test/**/*.js'

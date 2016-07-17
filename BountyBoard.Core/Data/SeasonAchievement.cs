@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BountyBoard.Core.Data
 {
+    /// <summary>
+    /// This describes what is currently earmarked.
+    /// </summary>
     public class SeasonAchievement : DatabaseObject
     {
         internal SeasonAchievement() { }
@@ -14,6 +17,7 @@ namespace BountyBoard.Core.Data
         public Season Season { get; set; }
         public int AchievementId { get; set; }
         public Achievement Achievement { get; set; }
+
 
     }
 }

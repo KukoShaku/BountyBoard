@@ -14,5 +14,44 @@ namespace BountyBoard.Core.Data
         public bool IsActive { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+
+        /// <summary>
+        /// All of the achievements associated with this season
+        /// </summary>
+        public virtual ICollection<Achievement> Achievements { get; set; }
+
+        public AccountGroup AccountGroup { get; set; }
+        public int AccountGroupId { get; set; }
+
+        /// <summary>
+        /// Start date is not inclusive.
+        /// End date is inclusive
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns>true if time is within start and end date. If either are null, returns false</returns>
+        internal bool IsBetween(DateTime time)
+        {
+            if (StartDate == null || EndDate == null)
+            {
+                return false;
+            }
+            else
+            {
+                return StartDate < time && time <= EndDate;
+            }
+        }
+
+        public bool CanActivate
+        {
+            get
+            {
+
+                return StartDate.HasValue
+                    && EndDate.HasValue
+                    && StartDate < EndDate
+                    && !IsActive;
+            }
+        }
+
     }
 }

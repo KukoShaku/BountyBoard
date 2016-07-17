@@ -54,11 +54,20 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AccountManagementTests.cs" />
+    <Compile Include="Management\AccountManagementTests.cs" />
+    <Compile Include="Management\AchievementManagementTests.cs" />
+    <Compile Include="Management\ApiKeyManagementTests.cs" />
+    <Compile Include="Management\AutomatedControllerTests.cs" />
+    <Compile Include="Management\BasicAccountManagementTests.cs" />
     <Compile Include="Extensions\AccountStuffExtensions.cs" />
+    <Compile Include="Management\ReceivedEventsManagerTests.cs" />
+    <Compile Include="Management\SeasonManagementTests.cs" />
+    <Compile Include="MetricsHubTests.cs" />
     <Compile Include="MockObjects\FakeRestrictiveAccess.cs" />
+    <Compile Include="MockObjects\MetricParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SeasonAchievementManagementTests.cs" />
+    <Compile Include="Management\SeasonAchievementManagementTests.cs" />
+    <Compile Include="Templates.cs" />
     <Compile Include="UserRestrictedDatabaseLinkTests.cs" />
   </ItemGroup>
   <ItemGroup>

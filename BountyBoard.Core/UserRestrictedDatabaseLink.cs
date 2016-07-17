@@ -13,10 +13,23 @@ namespace BountyBoard.Core
         public Person Me { get { return _person; } }
         public bool ValidUser { get { return !_person.DisabledDate.HasValue; } }
 
+        public IEnumerable<KeyValuePair<AccountGroup, PermissionLevel>> MyPermissions
+        {
+            get
+            {
+                return Me.AccountGroupPeople
+                    .Where(x => x.AccountGroup.EndDate == null) //do not select the disabled ones
+                    .Select(x => new KeyValuePair<AccountGroup, PermissionLevel>(x.AccountGroup, x.PermissionLevel));
+            }
+        }
+
         protected UserRestrictedDatabaseLink(IDatabaseContext context, int personId) 
             : base(context)
         {
-            _person = Context.List<Person>().Single(x => x.Id == personId && !x.DisabledDate.HasValue);
+            //TODO: Only admins can reactivate their account.
+            _person = Context.List<Person>().Single(x => 
+                x.Id == personId 
+                && !x.DisabledDate.HasValue);
         }
     }
 }

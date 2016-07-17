@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BountyBoard.Core
+namespace BountyBoard.Core.Management
 {
     public class AwardManagement : CrudLink<AwardedAchievement>
     {
